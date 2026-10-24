@@ -20,7 +20,7 @@
             Quản lý sinh viên
         </h3>
 
-        <a href="?controller=patient&action=add" class="btn btn-success">
+        <a href="?controller=dish&action=add" class="btn btn-success">
             Thêm
         </a>
 
@@ -37,30 +37,30 @@
             </thead>
 
             <tbody>
-                <?php if (empty($patients)): ?>
+                <?php if (empty($dishes)): ?>
                     <tr>
                         <td colspan="6" class="text-center">
                             Chưa có dữ liệu sinh viên.
                         </td>
                     </tr>
                 <?php else: ?>
-                    <?php foreach ($patients as $patient): ?>
-                        <?php $patientId = $patient->getMaSv(); ?>
+                    <?php foreach ($dishes as $dish): ?>
+                        <?php $dishId = $dish->getMaSv(); ?>
 
                         <tr>
-                            <th scope="row"><?= e($patient->getMaSv()) ?></th>
-                            <td><?= e($patient->getTenSv()) ?></td>
-                            <td><?= e($patient->getLop()) ?></td>
-                            <td><?= e($patient->getKhoa()) ?></td>
+                            <th scope="row"><?= e($dish->getMaSv()) ?></th>
+                            <td><?= e($dish->getTenSv()) ?></td>
+                            <td><?= e($dish->getLop()) ?></td>
+                            <td><?= e($dish->getKhoa()) ?></td>
 
                             <td>
-                                <a href="<?= DOMAIN ?>public/?controller=patient&action=edit&MaSv=<?= e($patientId) ?>">
+                                <a href="<?= DOMAIN ?>public/?controller=dish&action=edit&MaSv=<?= e($dishId) ?>">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                             </td>
 
                             <td>
-                                <a href="<?= DOMAIN ?>public/?controller=patient&action=delete&MaSv=<?= e($patientId) ?>"
+                                <a href="<?= DOMAIN ?>public/?controller=dish&action=delete&MaSv=<?= e($dishId) ?>"
                                    onclick="return confirm('Bạn có chắc chắn muốn xóa sinh viên này?');">
                                     <i class="bi bi-trash"></i>
                                 </a>

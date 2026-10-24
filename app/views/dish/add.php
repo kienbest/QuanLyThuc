@@ -13,7 +13,7 @@
             Thêm sinh viên
         </h3>
 
-    <form method="POST" action="<?= DOMAIN . 'public/?controller=patient&action=store' ?>">
+    <form method="POST" action="<?= DOMAIN . 'public/?controller=dish&action=store' ?>">
 
         <div class="mb-3">
             <label class="form-label">Mã sinh viên</label>

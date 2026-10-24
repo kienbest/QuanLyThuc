@@ -1,9 +1,9 @@
 <?php
-require_once APP_ROOT.'/app/models/Patient.php';
+require_once APP_ROOT.'/app/models/Dish.php';
 
-class PatientService{
-    public function getAllPatients(){
-        $patients = [];
+class DishService{
+    public function getAllDishes(){
+        $dishes = [];
         $dbConnection = new DBConnection();
 
         if ($dbConnection != null) {
@@ -14,18 +14,18 @@ class PatientService{
                 $stmt = $conn->query($sql);
 
                 while ($row = $stmt->fetch()) {
-                    $patient = new Patient($row['masv'], $row['tensv'], $row['lop'], $row['khoa']);
-                    $patients[] = $patient;
+                    $dish = new Dish($row['masv'], $row['tensv'], $row['lop'], $row['khoa']);
+                    $dishes[] = $dish;
                 }
 
-                return $patients;
+                return $dishes;
             }
         }
 
         return [];
     }
 
-    public function addPatient($masv, $tensv, $lop, $khoa){
+    public function addDish($masv, $tensv, $lop, $khoa){
         $dbConnection = new DBConnection();
         $conn = $dbConnection->getConnection();
 
@@ -35,7 +35,7 @@ class PatientService{
         return $stmt->execute([$masv, $tensv, $lop, $khoa]);
     }
 
-    public function editPatient($masv, $tensv, $lop, $khoa){
+    public function editDish($masv, $tensv, $lop, $khoa){
         $dbConnection = new DBConnection();
         $conn = $dbConnection->getConnection();
 
@@ -45,7 +45,7 @@ class PatientService{
         return $stmt->execute([$tensv, $lop, $khoa, $masv]);
     }
 
-    public function deletePatient($masv){
+    public function deleteDish($masv){
         $dbConnection = new DBConnection();
         $conn = $dbConnection->getConnection();
 
@@ -55,7 +55,7 @@ class PatientService{
         return $stmt->execute([$masv]);
     }
 
-    public function getPatientById($masv){
+    public function getDishById($masv){
         $dbConnection = new DBConnection();
         $conn = $dbConnection->getConnection();
 
@@ -66,7 +66,7 @@ class PatientService{
         $row = $stmt->fetch();
 
         if ($row) {
-            return new Patient(
+            return new Dish(
                 $row['masv'],
                 $row['tensv'],
                 $row['lop'],

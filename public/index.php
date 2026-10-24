@@ -13,29 +13,29 @@ if ($controller == 'home') {
     $homeController = new HomeController();
     $homeController->index();
 
-} else if ($controller == 'patient') {
+} else if ($controller == 'dish') {
 
-    require_once APP_ROOT . '/app/controllers/PatientController.php';
+    require_once APP_ROOT . '/app/controllers/DishController.php';
 
-    $patientController = new PatientController();
+    $dishController = new DishController();
 
     if ($action == 'index') {
-        $patientController->index();
+        $dishController->index();
 
     } else if ($action == 'add') {
-        $patientController->add();
+        $dishController->add();
 
     } else if ($action == 'store') {
-        $patientController->store();
+        $dishController->store();
 
     } else if ($action == 'edit') {
-        $patientController->edit();
+        $dishController->edit();
     }else if ($action == 'update') {
-        $patientController->update();
+        $dishController->update();
     }else if ($action == 'delete') {
-    $patientController->delete();
+    $dishController->delete();
 }else if ($action == 'destroy') {
-    $patientController->destroy();
+    $dishController->destroy();
 }
 
 } else {

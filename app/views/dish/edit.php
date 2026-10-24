@@ -22,7 +22,7 @@
     Sửa sinh viên
 </h3>
 
-<?php if ($patient === null) { ?>
+<?php if ($dish === null) { ?>
 
     <div class="alert alert-warning" role="alert">
         Không tìm thấy sinh viên cần sửa.
@@ -34,7 +34,7 @@
 
 <?php } else { ?>
 
-    <form method="POST" action="<?= DOMAIN . 'public/?controller=patient&action=update' ?>">
+    <form method="POST" action="<?= DOMAIN . 'public/?controller=dish&action=update' ?>">
 
         <div class="mb-3">
             <label class="form-label">Mã sinh viên</label>
@@ -43,7 +43,7 @@
                 type="text"
                 name="masv"
                 class="form-control"
-                value="<?= htmlspecialchars((string) $patient->getMaSv(), ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= htmlspecialchars((string) $dish->getMaSv(), ENT_QUOTES, 'UTF-8') ?>"
                 readonly
                 required
             >
@@ -56,7 +56,7 @@
                 type="text"
                 name="tensv"
                 class="form-control"
-                value="<?= htmlspecialchars((string) $patient->getTenSv(), ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= htmlspecialchars((string) $dish->getTenSv(), ENT_QUOTES, 'UTF-8') ?>"
                 required
             >
         </div>
@@ -68,7 +68,7 @@
                 type="text"
                 name="lop"
                 class="form-control"
-                value="<?= htmlspecialchars((string) $patient->getLop(), ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= htmlspecialchars((string) $dish->getLop(), ENT_QUOTES, 'UTF-8') ?>"
                 required
             >
         </div>
@@ -80,7 +80,7 @@
                 type="text"
                 name="khoa"
                 class="form-control"
-                value="<?= htmlspecialchars((string) $patient->getKhoa(), ENT_QUOTES, 'UTF-8') ?>"
+                value="<?= htmlspecialchars((string) $dish->getKhoa(), ENT_QUOTES, 'UTF-8') ?>"
                 required
             >
         </div>

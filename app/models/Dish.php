@@ -1,5 +1,5 @@
 <?php
-class Patient{
+class Dish{
     private $masv;
     private $tensv;
     private $lop;

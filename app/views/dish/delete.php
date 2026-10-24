@@ -1,6 +1,6 @@
 <?php
-if (!isset($patient)) {
-    $patient = new Patient('', '', '','');
+if (!isset($dish)) {
+    $dish = new Dish('', '', '','');
 }
 ?>
 
@@ -29,16 +29,16 @@ if (!isset($patient)) {
 
     <div class="alert alert-warning">
         Bạn có chắc chắn muốn xóa bệnh nhân
-        <strong><?= $patient->getMaSv(); ?></strong>
+        <strong><?= $dish->getMaSv(); ?></strong>
         không?
     </div>
 
-    <form method="POST" action="<?= DOMAIN.'public/?controller=patient&action=destroy' ?>">
+    <form method="POST" action="<?= DOMAIN.'public/?controller=dish&action=destroy' ?>">
 
         <input
             type="hidden"
             name="tensv"
-            value="<?= $patient->getTenSv(); ?>"
+            value="<?= $dish->getTenSv(); ?>"
         >
 
         <button

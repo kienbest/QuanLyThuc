@@ -1,8 +1,8 @@
 
 <?php
-require_once APP_ROOT.'/app/services/PatientService.php';
+require_once APP_ROOT.'/app/services/DishService.php';
 
-class PatientController {
+class DishController {
 
     public function redirect() {
         header('Location: '.DOMAIN.'public/');
@@ -10,14 +10,14 @@ class PatientController {
     }
 
     public function index() {
-        $patientService = new PatientService();
-        $patients = $patientService->getAllPatients();
+        $dishService = new DishService();
+        $dishes = $dishService->getAllDishes();
 
         include APP_ROOT.'/app/views/home/index.php';
     }
 
     public function add() {
-        include APP_ROOT.'/app/views/patient/add.php';
+        include APP_ROOT.'/app/views/dish/add.php';
     }
 
     public function store() {
@@ -26,8 +26,8 @@ class PatientController {
         $lop = $_POST['lop'] ?? '';
         $khoa = $_POST['khoa'] ?? '';
 
-        $patientService = new PatientService();
-        $patientService->addPatient($masv, $tensv, $lop, $khoa);
+        $dishService = new DishService();
+        $dishService->addDish($masv, $tensv, $lop, $khoa);
 
         $this->redirect();
     }
@@ -35,10 +35,10 @@ class PatientController {
     public function edit() {
         $MaSv = $_GET['MaSv'] ?? '';
 
-        $patientService = new PatientService();
-        $patient = $patientService->getPatientById($MaSv);
+        $dishService = new DishService();
+        $dish = $dishService->getDishById($MaSv);
 
-        include APP_ROOT.'/app/views/patient/edit.php';
+        include APP_ROOT.'/app/views/dish/edit.php';
     }
 
     public function update() {
@@ -47,8 +47,8 @@ class PatientController {
         $Lop = $_POST['lop'] ?? '';
         $Khoa = $_POST['khoa'] ?? '';
 
-        $patientService = new PatientService();
-        $patientService->editPatient($MaSv, $TenSv, $Lop, $Khoa);
+        $dishService = new DishService();
+        $dishService->editDish($MaSv, $TenSv, $Lop, $Khoa);
 
         $this->redirect();
     }
@@ -56,8 +56,8 @@ class PatientController {
     public function delete() {
         $masv = $_GET['MaSv'] ?? '';
 
-        $patientService = new PatientService();
-        $patientService->deletePatient($masv);
+        $dishService = new DishService();
+        $dishService->deleteDish($masv);
 
         $this->redirect();
     }
@@ -65,8 +65,8 @@ class PatientController {
     public function destroy() {
         $masv = $_POST['masv'] ?? '';
 
-        $patientService = new PatientService();
-        $patientService->deletePatient($masv);
+        $dishService = new DishService();
+        $dishService->deleteDish($masv);
 
         $this->redirect();
     }
