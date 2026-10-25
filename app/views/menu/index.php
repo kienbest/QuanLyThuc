@@ -127,8 +127,7 @@
                            value="<?= htmlspecialchars($ngayAn) ?>" required>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Lưu thực đơn</label><br>
+                <div class="col-md-4 d-flex align-items-end">
                     <button type="submit" class="btn btn-success">Lưu thực đơn</button>
                 </div>
             </div>
