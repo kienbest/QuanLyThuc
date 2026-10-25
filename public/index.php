@@ -60,6 +60,20 @@ if ($controller == 'home') {
     }
 
 // Controller khác
+// Controller lập thực đơn
+} else if ($controller == 'menu') {
+    require_once APP_ROOT . '/app/controllers/MenuController.php';
+    $menuController = new MenuController();
+    if ($action == 'index') {
+        $menuController->index();
+    } else if ($action == 'store') {
+        $menuController->store();
+    } else {
+        echo 'Không tìm thấy chức năng lập thực đơn.';
+    }
+
+// Controller khác
+
 } else {
 
     echo 'Không tìm thấy trang yêu cầu.';
