@@ -16,7 +16,7 @@
     <form method="POST" action="<?= DOMAIN . 'public/?controller=dish&action=store' ?>">
 
         <div class="mb-3">
-            <label class="form-label">Mã sinh viên</label>
+            <label class="form-label">Mã món ăn</label>
             <input type="text" name="masv" class="form-control" required>
         </div>
 

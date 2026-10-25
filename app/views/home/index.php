@@ -1,77 +1,288 @@
+
+<?php
+/** @var mixed $totalDishes */
+/** @var mixed $todayMenuCount */
+/** @var mixed $totalMenuDays */
+/** @var string $selectedDate */
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý sinh viên</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <title>Quản lý thực đơn quán theo ngày</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 </head>
-<body>
-    <?php
-    function e($value) {
-        return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-    }
-    ?>
 
-    <div class="container">
-        <h3 class="text-center text-uppercase text-success mt-3 mb-3">
-            Quản lý sinh viên
+<body>
+
+    <!-- Thanh điều hướng -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold text-success"
+               href="<?= DOMAIN ?>public/">
+                Menu Daily
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Mở thanh điều hướng"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="<?= DOMAIN ?>public/?controller=home&action=index">
+                            Tổng quan
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=index">
+                            Lập thực đơn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=dish&action=index">
+                            Món ăn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=history">
+                            Tra cứu thực đơn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=user&action=login">
+                            Đăng nhập
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=user&action=register">
+                            Đăng ký
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 mb-5">
+
+        <!-- Tiêu đề -->
+        <h3 class="text-center text-uppercase text-success mt-3 mb-4">
+            Tổng quan thực đơn
         </h3>
 
-        <a href="?controller=dish&action=add" class="btn btn-success">
-            Thêm
-        </a>
+        <!-- Thống kê -->
+        <div class="row g-3 mb-4">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Mã sinh viên</th>
-                    <th scope="col">Tên sinh viên</th>
-                    <th scope="col">Lớp</th>
-                    <th scope="col">Khoa</th>
-                    <th scope="col">Sửa</th>
-                    <th scope="col">Xóa</th>
-                </tr>
-            </thead>
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100">
+                    <h6 class="text-secondary">Tổng số món ăn</h6>
 
-            <tbody>
-                <?php if (empty($dishes)): ?>
+                    <h2><?= (int) $totalDishes ?></h2>
+
+                    <p class="mb-0">Món ăn trong hệ thống</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100">
+                    <h6 class="text-secondary">
+                        Món trong thực đơn hôm nay
+                    </h6>
+
+                    <h2><?= (int) $todayMenuCount ?></h2>
+
+                    <p class="mb-0"><?= date('d/m/Y') ?></p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="border rounded p-3 h-100">
+                    <h6 class="text-secondary">
+                        Số ngày đã lập thực đơn
+                    </h6>
+
+                    <h2><?= (int) $totalMenuDays ?></h2>
+
+                    <p class="mb-0">Số ngày có thực đơn</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Thực đơn hôm nay -->
+        <h5 class="mb-3">Thực đơn hôm nay</h5>
+
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-striped align-middle">
+
+                <thead class="table-light">
                     <tr>
-                        <td colspan="6" class="text-center">
-                            Chưa có dữ liệu sinh viên.
-                        </td>
+                        <th scope="col">STT</th>
+                        <th scope="col">Bữa ăn</th>
+                        <th scope="col">Tên món ăn</th>
+                        <th scope="col">Ngày ăn</th>
                     </tr>
-                <?php else: ?>
-                    <?php foreach ($dishes as $dish): ?>
-                        <?php $dishId = $dish->getMaSv(); ?>
+                </thead>
+
+                <tbody>
+                    <?php if (!empty($todayMenu)): ?>
+
+                        <?php foreach ($todayMenu as $index => $item): ?>
+                            <tr>
+                                <th scope="row">
+                                    <?= $index + 1 ?>
+                                </th>
+
+                                <td>
+                                    <?= e($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
+                                </td>
+
+                                <td>
+                                    <?= e($item['ten_mon_an']) ?>
+                                </td>
+
+                                <td>
+                                    <?= date(
+                                        'd/m/Y',
+                                        strtotime($item['ngay_an'])
+                                    ) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
 
                         <tr>
-                            <th scope="row"><?= e($dish->getMaSv()) ?></th>
-                            <td><?= e($dish->getTenSv()) ?></td>
-                            <td><?= e($dish->getLop()) ?></td>
-                            <td><?= e($dish->getKhoa()) ?></td>
-
-                            <td>
-                                <a href="<?= DOMAIN ?>public/?controller=dish&action=edit&MaSv=<?= e($dishId) ?>">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                            </td>
-
-                            <td>
-                                <a href="<?= DOMAIN ?>public/?controller=dish&action=delete&MaSv=<?= e($dishId) ?>"
-                                   onclick="return confirm('Bạn có chắc chắn muốn xóa sinh viên này?');">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                            <td colspan="4" class="text-center">
+                                Hôm nay chưa có thực đơn.
                             </td>
                         </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+
+                    <?php endif; ?>
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Lịch sử lập thực đơn -->
+        <h5 class="mb-3">Lịch sử lập thực đơn</h5>
+
+        <form
+            method="GET"
+            action="<?= DOMAIN ?>public/"
+            class="row g-3 align-items-end mb-3"
+        >
+
+            <input type="hidden" name="controller" value="home">
+            <input type="hidden" name="action" value="index">
+
+            <div class="col-md-4">
+                <label for="date" class="form-label">
+                    Chọn ngày cần tra cứu
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    class="form-control"
+                    value="<?= e($selectedDate) ?>"
+                    required
+                >
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-success">
+                    Tra cứu
+                </button>
+            </div>
+
+        </form>
+
+        <p class="mb-2">
+            Kết quả ngày:
+            <strong>
+                <?= date('d/m/Y', strtotime($selectedDate)) ?>
+            </strong>
+        </p>
+
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered table-striped align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Bữa ăn</th>
+                        <th scope="col">Tên món ăn</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php if (!empty($historyMenu)): ?>
+
+                        <?php foreach ($historyMenu as $index => $item): ?>
+                            <tr>
+                                <th scope="row">
+                                    <?= $index + 1 ?>
+                                </th>
+
+                                <td>
+                                    <?= e($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
+                                </td>
+
+                                <td>
+                                    <?= e($item['ten_mon_an']) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    <?php else: ?>
+
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                Không có thực đơn trong ngày này.
+                            </td>
+                        </tr>
+
+                    <?php endif; ?>
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

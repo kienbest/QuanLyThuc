@@ -6,13 +6,20 @@ require_once APP_ROOT . '/app/libs/DBConnection.php';
 $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
+// Controller trang chủ
 if ($controller == 'home') {
 
     require_once APP_ROOT . '/app/controllers/HomeController.php';
 
     $homeController = new HomeController();
-    $homeController->index();
 
+    if ($action == 'index') {
+        $homeController->index();
+    } else {
+        echo 'Không tìm thấy chức năng trang chủ.';
+    }
+
+// Controller quản lý món ăn
 } else if ($controller == 'dish') {
 
     require_once APP_ROOT . '/app/controllers/DishController.php';
@@ -20,24 +27,40 @@ if ($controller == 'home') {
     $dishController = new DishController();
 
     if ($action == 'index') {
+
         $dishController->index();
 
     } else if ($action == 'add') {
+
         $dishController->add();
 
     } else if ($action == 'store') {
+
         $dishController->store();
 
     } else if ($action == 'edit') {
-        $dishController->edit();
-    }else if ($action == 'update') {
-        $dishController->update();
-    }else if ($action == 'delete') {
-    $dishController->delete();
-}else if ($action == 'destroy') {
-    $dishController->destroy();
-}
 
+        $dishController->edit();
+
+    } else if ($action == 'update') {
+
+        $dishController->update();
+
+    } else if ($action == 'delete') {
+
+        $dishController->delete();
+
+    } else if ($action == 'destroy') {
+
+        $dishController->destroy();
+
+    } else {
+
+        echo 'Không tìm thấy chức năng quản lý món ăn.';
+    }
+
+// Controller khác
 } else {
-    echo 'Nothing';
+
+    echo 'Không tìm thấy trang yêu cầu.';
 }

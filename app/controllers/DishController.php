@@ -13,7 +13,7 @@ class DishController {
         $dishService = new DishService();
         $dishes = $dishService->getAllDishes();
 
-        include APP_ROOT.'/app/views/home/index.php';
+        include APP_ROOT.'/app/views/dish/index.php';
     }
 
     public function add() {
