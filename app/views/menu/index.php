@@ -12,14 +12,7 @@
 
     <style>
         body {
-            background-color: #f5f5f5;
-        }
-
-        .container {
             background-color: white;
-            padding: 20px;
-            margin-top: 30px;
-            border-radius: 8px;
         }
 
         .card {
@@ -31,7 +24,6 @@
         }
 
         .dish {
-            border-top: 1px solid #ddd;
             padding: 8px 0;
             display: flex;
             justify-content: space-between;
@@ -42,10 +34,85 @@
             color: red;
             text-decoration: none;
         }
+        
+        h3 {
+            font-size: 35px;
+            margin-top: 28px;
+        }
     </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+
+            <a class="navbar-brand fw-bold text-success"
+               href="<?= DOMAIN ?>public/">
+                Menu Daily
+            </a>
+
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Mở thanh điều hướng"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav ms-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="<?= DOMAIN ?>public/?controller=home&action=index">
+                            Tổng quan
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=index">
+                            Lập thực đơn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=dish&action=index">
+                            Món ăn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=history">
+                            Tra cứu thực đơn
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=user&action=login">
+                            Đăng nhập
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=user&action=register">
+                            Đăng ký
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
     <div class="container">
 
         <h3 class="text-center text-success mb-4">Lập thực đơn</h3>
