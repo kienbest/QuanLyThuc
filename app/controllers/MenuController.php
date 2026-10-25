@@ -27,8 +27,10 @@ class MenuController
     {
         if (isset($maThucDon)) {
             $menuService = new MenuService();
-            $thucDon = $menuService->getMenuById($maThucDon);
-            include APP_ROOT . '/app/views/menu/delete.php';
+            $menuService->deleteMenu($maThucDon);
+            $ngayAn = $_GET['ngay_an'] ?? date('Y-m-d');
+            header('Location: ?controller=menu&action=index&ngay_an=' . $ngayAn);
+            exit;
         } else {
             echo 'Id is null';
         }

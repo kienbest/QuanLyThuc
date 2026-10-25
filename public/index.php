@@ -68,6 +68,8 @@ if ($controller == 'home') {
         $menuController->index();
     } else if ($action == 'store') {
         $menuController->store();
+    } else if ($action == 'delete') {
+        $menuController->delete($_GET['id'] ?? null);
     } else {
         echo 'Không tìm thấy chức năng lập thực đơn.';
     }

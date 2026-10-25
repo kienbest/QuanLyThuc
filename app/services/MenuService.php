@@ -50,8 +50,12 @@ class MenuService
 
     public function deleteMenu($maThucDon)
     {
-        $conn = (new DBConnection())->getConnection();
-        $conn->exec("DELETE FROM thuc_don WHERE ma_thuc_don = '$maThucDon'");
+        $dbConnection = new DBConnection();
+        $conn = $dbConnection->getConnection();
+        if ($conn != null) {
+            $sql = "DELETE FROM thuc_don WHERE ma_thuc_don = '$maThucDon'";
+            $conn->exec($sql);
+        }
     }
 }
 ?>

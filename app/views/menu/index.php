@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -32,6 +33,14 @@
         .dish {
             border-top: 1px solid #ddd;
             padding: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            color: red;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -78,7 +87,11 @@
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Sang') { ?>
                                     <div class="dish">
-                                       <?= htmlspecialchars($td['ten_mon_an']) ?>
+                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
+                                        <a class="delete-btn"
+                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            <i class="bi bi-x-lg"></i>
+                                        </a>
                                     </div>
                             <?php }
                             } ?>
@@ -105,7 +118,11 @@
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Trua') { ?>
                                     <div class="dish">
-                                        <?= htmlspecialchars($td['ten_mon_an']) ?>
+                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
+                                        <a class="delete-btn"
+                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            <i class="bi bi-x-lg"></i>
+                                        </a>
                                     </div>
                             <?php }
                             } ?>
@@ -132,7 +149,11 @@
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Toi') { ?>
                                     <div class="dish">
-                                        <?= htmlspecialchars($td['ten_mon_an']) ?>
+                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
+                                        <a class="delete-btn"
+                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            <i class="bi bi-x-lg"></i>
+                                        </a>
                                     </div>
                             <?php }
                             } ?>
