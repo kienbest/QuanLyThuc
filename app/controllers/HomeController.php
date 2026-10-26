@@ -49,17 +49,7 @@ class HomeController
             'Toi' => 'Tối'
         ];
 
-        // 6. Hàm xử lý dữ liệu hiển thị an toàn
-        if (!function_exists('e')) {
-            function e($value)
-            {
-                return htmlspecialchars(
-                    (string) $value,
-                    ENT_QUOTES,
-                    'UTF-8'
-                );
-            }
-        }
+   
 
         // 7. Mở giao diện
         require APP_ROOT . '/app/views/home/index.php';

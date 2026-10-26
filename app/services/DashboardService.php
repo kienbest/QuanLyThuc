@@ -49,13 +49,12 @@ class DashboardService
         {
             $sql = "SELECT
                         td.bua_an,
-                        (
-                            SELECT ma.ten_mon_an
-                            FROM mon_an ma
-                            WHERE ma.ma_mon_an = td.ma_mon_an
-                        ) AS ten_mon_an,
+                        ma.ten_mon_an,
+                        ma.nguyen_lieu,
+                        ma.cach_che_bien,
                         td.ngay_an
                     FROM thuc_don td
+                    LEFT JOIN mon_an ma ON ma.ma_mon_an = td.ma_mon_an
                     WHERE td.ngay_an = :ngay_an
                     ORDER BY FIELD(td.bua_an, 'Sang', 'Trua', 'Toi')";
 

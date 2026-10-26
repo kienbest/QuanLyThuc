@@ -28,20 +28,8 @@
 
             <a class="navbar-brand fw-bold text-success"
                href="<?= DOMAIN ?>public/">
-                Menu Daily
+                Quản lý thực đơn
             </a>
-
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar"
-                aria-expanded="false"
-                aria-label="Mở thanh điều hướng"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto">
@@ -100,45 +88,6 @@
             Tổng quan thực đơn
         </h3>
 
-        <!-- Thống kê -->
-        <div class="row g-3 mb-4">
-
-            <div class="col-md-4">
-                <div class="border rounded p-3 h-100">
-                    <h6 class="text-secondary">Tổng số món ăn</h6>
-
-                    <h2><?= (int) $totalDishes ?></h2>
-
-                    <p class="mb-0">Món ăn trong hệ thống</p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="border rounded p-3 h-100">
-                    <h6 class="text-secondary">
-                        Món trong thực đơn hôm nay
-                    </h6>
-
-                    <h2><?= (int) $todayMenuCount ?></h2>
-
-                    <p class="mb-0"><?= date('d/m/Y') ?></p>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="border rounded p-3 h-100">
-                    <h6 class="text-secondary">
-                        Số ngày đã lập thực đơn
-                    </h6>
-
-                    <h2><?= (int) $totalMenuDays ?></h2>
-
-                    <p class="mb-0">Số ngày có thực đơn</p>
-                </div>
-            </div>
-
-        </div>
-
         <!-- Thực đơn hôm nay -->
         <h5 class="mb-3">Thực đơn hôm nay</h5>
 
@@ -150,7 +99,7 @@
                         <th scope="col">STT</th>
                         <th scope="col">Bữa ăn</th>
                         <th scope="col">Tên món ăn</th>
-                        <th scope="col">Ngày ăn</th>
+                        <th scope="col">Nguyên liệu</th>
                     </tr>
                 </thead>
 
@@ -164,18 +113,15 @@
                                 </th>
 
                                 <td>
-                                    <?= e($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
+                                    <?= ($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
                                 </td>
 
                                 <td>
-                                    <?= e($item['ten_mon_an']) ?>
+                                    <?= ($item['ten_mon_an']) ?>
                                 </td>
 
                                 <td>
-                                    <?= date(
-                                        'd/m/Y',
-                                        strtotime($item['ngay_an'])
-                                    ) ?>
+                                    <?= ($item['nguyen_lieu'] ?? '') ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -216,7 +162,7 @@
                     id="date"
                     name="date"
                     class="form-control"
-                    value="<?= e($selectedDate) ?>"
+                    value="<?= ($selectedDate) ?>"
                     required
                 >
             </div>
@@ -244,6 +190,7 @@
                         <th scope="col">STT</th>
                         <th scope="col">Bữa ăn</th>
                         <th scope="col">Tên món ăn</th>
+                        <th scope="col">Quy trình chế biến</th>
                     </tr>
                 </thead>
 
@@ -257,11 +204,15 @@
                                 </th>
 
                                 <td>
-                                    <?= e($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
+                                    <?= ($mealNames[$item['bua_an']] ?? $item['bua_an']) ?>
                                 </td>
 
                                 <td>
-                                    <?= e($item['ten_mon_an']) ?>
+                                    <?= ($item['ten_mon_an']) ?>
+                                </td>
+
+                                <td>
+                                    <?= ($item['cach_che_bien'] ?? '') ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -269,7 +220,7 @@
                     <?php else: ?>
 
                         <tr>
-                            <td colspan="3" class="text-center">
+                            <td colspan="4" class="text-center">
                                 Không có thực đơn trong ngày này.
                             </td>
                         </tr>
