@@ -1,64 +1,61 @@
-<?php
-if (!isset($dish)) {
-    $dish = new Dish('', '', '','');
-}
-?>
 
+<?php
+/** @var Dish $dish */
+?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xoá thông tin món ăn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <style>
+        form {
+            width: 30%;
+            margin: auto;
+        }
 
-    <title>Xóa học sinh</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+        button {
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="container">
+        <h3 class="text-center text-uppercase text-danger mt-3 mb-3">Xoá thông tin món ăn</h3>
 
-<div class="container">
+        <form action="?controller=dish&action=destroy" method="post">
+            <input type="hidden" name="ma_mon_an" value="<?= $dish->getMaMonAn(); ?>">
 
-    <h3 class="text-center text-uppercase text-danger mt-3 mb-3">
-        Xác nhận xóa học sinh
-    </h3>
+            <div class="mb-3">
+                <label for="ma_nguoi_dung" class="form-label">Mã người dùng</label>
+                <input type="text" class="form-control" id="ma_nguoi_dung" name="ma_nguoi_dung" value="<?= htmlspecialchars($dish->getMaNguoiDung()); ?>" readonly>
+            </div>
 
-    <div class="alert alert-warning">
-        Bạn có chắc chắn muốn xóa bệnh nhân
-        <strong><?= $dish->getMaSv(); ?></strong>
-        không?
+            <div class="mb-3">
+                <label for="ten_mon_an" class="form-label">Tên món ăn</label>
+                <input type="text" class="form-control" id="ten_mon_an" name="ten_mon_an" value="<?= htmlspecialchars($dish->getTenMonAn()); ?>" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label for="nguyen_lieu" class="form-label">Nguyên liệu</label>
+                <textarea class="form-control" id="nguyen_lieu" name="nguyen_lieu" rows="3" readonly><?= htmlspecialchars($dish->getNguyenLieu() ?? ''); ?></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="cach_che_bien" class="form-label">Cách chế biến</label>
+                <textarea class="form-control" id="cach_che_bien" name="cach_che_bien" rows="4" readonly><?= htmlspecialchars($dish->getCachCheBien() ?? ''); ?></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-danger" name="btn_delete">Xác nhận xoá</button>
+        </form>
     </div>
 
-    <form method="POST" action="<?= DOMAIN.'public/?controller=dish&action=destroy' ?>">
-
-        <input
-            type="hidden"
-            name="tensv"
-            value="<?= $dish->getTenSv(); ?>"
-        >
-
-        <button
-            type="submit"
-            class="btn btn-danger"
-        >
-            Xác nhận xóa
-        </button>
-
-        <a
-            href="<?= DOMAIN.'public/' ?>"
-            class="btn btn-secondary"
-        >
-            Hủy
-        </a>
-
-    </form>
-
-</div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>

@@ -1,33 +1,65 @@
 <?php
-class Dish{
-    private $masv;
-    private $tensv;
-    private $lop;
-    private $khoa;
-    
-    
 
-    public function __construct($masv, $tensv, $lop, $khoa)
+class Dish
+{
+    private $maMonAn;
+    private $maNguoiDung;
+    private $tenMonAn;
+    private $nguyenLieu;
+    private $cachCheBien;
+
+    public function __construct($maMonAn, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien)
     {
-        $this->masv = $masv;
-        $this->tensv = $tensv;
-        $this->lop = $lop;
-        $this->khoa = $khoa;
+        $this->maMonAn = $maMonAn;
+        $this->maNguoiDung = $maNguoiDung;
+        $this->tenMonAn = $tenMonAn;
+        $this->nguyenLieu = $nguyenLieu;
+        $this->cachCheBien = $cachCheBien;
     }
 
-    public function getMaSv(){
-        return $this->masv;
+    public function getMaMonAn()
+    {
+        return $this->maMonAn;
     }
 
-    public function getTenSv(){
-        return $this->tensv;
-    }
-    public function getLop(){
-        return $this->lop;
+    public function getMaNguoiDung()
+    {
+        return $this->maNguoiDung;
     }
 
-    public function getKhoa(){
-        return $this->khoa;
+    public function getTenMonAn()
+    {
+        return $this->tenMonAn;
+    }
+
+    public function getNguyenLieu()
+    {
+        return $this->nguyenLieu;
+    }
+
+    public function getCachCheBien()
+    {
+        return $this->cachCheBien;
+    }
+
+    public function setMaNguoiDung($maNguoiDung)
+    {
+        $this->maNguoiDung = $maNguoiDung;
+    }
+
+    public function setTenMonAn($tenMonAn)
+    {
+        $this->tenMonAn = $tenMonAn;
+    }
+
+    public function setNguyenLieu($nguyenLieu)
+    {
+        $this->nguyenLieu = $nguyenLieu;
+    }
+
+    public function setCachCheBien($cachCheBien)
+    {
+        $this->cachCheBien = $cachCheBien;
     }
 }
 ?>

@@ -1,8 +1,12 @@
-<?php
-require_once APP_ROOT.'/app/models/Dish.php';
 
-class DishService{
-    public function getAllDishes(){
+<?php
+
+require_once APP_ROOT . '/app/models/Dish.php';
+
+class DishService
+{
+    public function getAllDishes()
+    {
         $dishes = [];
         $dbConnection = new DBConnection();
 
@@ -14,7 +18,14 @@ class DishService{
                 $stmt = $conn->query($sql);
 
                 while ($row = $stmt->fetch()) {
-                    $dish = new Dish($row['masv'], $row['tensv'], $row['lop'], $row['khoa']);
+                    $dish = new Dish(
+                        $row['ma_mon_an'],
+                        $row['ma_nguoi_dung'],
+                        $row['ten_mon_an'],
+                        $row['nguyen_lieu'],
+                        $row['cach_che_bien']
+                    );
+
                     $dishes[] = $dish;
                 }
 
@@ -22,59 +33,96 @@ class DishService{
             }
         }
 
-        return [];
+        return $dishes;
     }
 
-    public function addDish($masv, $tensv, $lop, $khoa){
+    public function addDish(Dish $dish)
+    {
         $dbConnection = new DBConnection();
-        $conn = $dbConnection->getConnection();
 
-        $sql = "INSERT INTO sinhvien (masv,tensv,lop,khoa) VALUES (?, ?, ?,?)";
-        $stmt = $conn->prepare($sql);
+        if ($dbConnection != null) {
+            $conn = $dbConnection->getConnection();
 
-        return $stmt->execute([$masv, $tensv, $lop, $khoa]);
-    }
+            if ($conn != null) {
+                $maNguoiDung = $dish->getMaNguoiDung();
+                $tenMonAn = $dish->getTenMonAn();
+                $nguyenLieu = $dish->getNguyenLieu();
+                $cachCheBien = $dish->getCachCheBien();
 
-    public function editDish($masv, $tensv, $lop, $khoa){
-        $dbConnection = new DBConnection();
-        $conn = $dbConnection->getConnection();
+                $sql = "INSERT INTO mon_an (`ma_nguoi_dung`, `ten_mon_an`, `nguyen_lieu`, `cach_che_bien`)
+                        VALUES ('$maNguoiDung', '$tenMonAn', '$nguyenLieu', '$cachCheBien')";
 
-        $sql = "UPDATE sinhvien SET tensv = ?, lop = ?, khoa = ? WHERE masv = ?";
-        $stmt = $conn->prepare($sql);
-
-        return $stmt->execute([$tensv, $lop, $khoa, $masv]);
-    }
-
-    public function deleteDish($masv){
-        $dbConnection = new DBConnection();
-        $conn = $dbConnection->getConnection();
-
-        $sql = "DELETE FROM sinhvien WHERE masv = ?";
-        $stmt = $conn->prepare($sql);
-
-        return $stmt->execute([$masv]);
-    }
-
-    public function getDishById($masv){
-        $dbConnection = new DBConnection();
-        $conn = $dbConnection->getConnection();
-
-        $sql = "SELECT * FROM sinhvien WHERE masv = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$masv]);
-
-        $row = $stmt->fetch();
-
-        if ($row) {
-            return new Dish(
-                $row['masv'],
-                $row['tensv'],
-                $row['lop'],
-                $row['khoa']
-            );
+                $conn->exec($sql);
+            }
         }
+    }
 
-        return null;
+    public function getDishById($maMonAn)
+    {
+        $dbConnection = new DBConnection();
+
+        if ($dbConnection != null) {
+            $conn = $dbConnection->getConnection();
+
+            if ($conn != null) {
+                $sql = "SELECT * FROM mon_an WHERE `ma_mon_an` = '$maMonAn'";
+                $stmt = $conn->query($sql);
+
+                if ($stmt->rowCount() > 0) {
+                    $row = $stmt->fetch();
+
+                    $dish = new Dish(
+                        $row['ma_mon_an'],
+                        $row['ma_nguoi_dung'],
+                        $row['ten_mon_an'],
+                        $row['nguyen_lieu'],
+                        $row['cach_che_bien']
+                    );
+
+                    return $dish;
+                }
+            }
+        }
+    }
+
+    public function editDish(Dish $dish)
+    {
+        $dbConnection = new DBConnection();
+
+        if ($dbConnection != null) {
+            $conn = $dbConnection->getConnection();
+
+            if ($conn != null) {
+                $maMonAn = $dish->getMaMonAn();
+                $maNguoiDung = $dish->getMaNguoiDung();
+                $tenMonAn = $dish->getTenMonAn();
+                $nguyenLieu = $dish->getNguyenLieu();
+                $cachCheBien = $dish->getCachCheBien();
+
+                $sql = "UPDATE mon_an
+                        SET `ma_nguoi_dung` = '$maNguoiDung',
+                            `ten_mon_an` = '$tenMonAn',
+                            `nguyen_lieu` = '$nguyenLieu',
+                            `cach_che_bien` = '$cachCheBien'
+                        WHERE `ma_mon_an` = '$maMonAn'";
+
+                $conn->exec($sql);
+            }
+        }
+    }
+
+    public function deleteDish($maMonAn)
+    {
+        $dbConnection = new DBConnection();
+
+        if ($dbConnection != null) {
+            $conn = $dbConnection->getConnection();
+
+            if ($conn != null) {
+                $sql = "DELETE FROM mon_an WHERE `ma_mon_an` = '$maMonAn'";
+                $conn->exec($sql);
+            }
+        }
     }
 }
 ?>

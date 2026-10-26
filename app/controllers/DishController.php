@@ -1,74 +1,109 @@
 
 <?php
-require_once APP_ROOT.'/app/services/DishService.php';
 
-class DishController {
+require_once APP_ROOT . '/app/services/DishService.php';
 
-    public function redirect() {
-        header('Location: '.DOMAIN.'public/');
-        exit;
-    }
-
-    public function index() {
+class DishController
+{
+    public function index()
+    {
         $dishService = new DishService();
         $dishes = $dishService->getAllDishes();
 
-        include APP_ROOT.'/app/views/dish/index.php';
+        include APP_ROOT . '/app/views/dish/index.php';
     }
 
-    public function add() {
-        include APP_ROOT.'/app/views/dish/add.php';
+    public function add()
+    {
+        include_once APP_ROOT . '/app/views/dish/add.php';
     }
 
-    public function store() {
-        $masv = $_POST['masv'] ?? '';
-        $tensv = $_POST['tensv'] ?? '';
-        $lop = $_POST['lop'] ?? '';
-        $khoa = $_POST['khoa'] ?? '';
+    public function store()
+    {
+        $maNguoiDung = $_POST['ma_nguoi_dung'];
+        $tenMonAn = $_POST['ten_mon_an'];
+        $nguyenLieu = $_POST['nguyen_lieu'];
+        $cachCheBien = $_POST['cach_che_bien'];
+
+        $dish = new Dish(null, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
-        $dishService->addDish($masv, $tensv, $lop, $khoa);
+        $dishService->addDish($dish);
 
-        $this->redirect();
+        header('Location: ?controller=dish&action=index');
+        exit;
     }
 
-    public function edit() {
-        $MaSv = $_GET['MaSv'] ?? '';
+    public function edit()
+    {
+        $maMonAn = $_GET['id'] ?? null;
 
-        $dishService = new DishService();
-        $dish = $dishService->getDishById($MaSv);
+        if (isset($maMonAn)) {
+            $dishService = new DishService();
+            $dish = $dishService->getDishById($maMonAn);
 
-        include APP_ROOT.'/app/views/dish/edit.php';
+            if ($dish) {
+                include APP_ROOT . '/app/views/dish/edit.php';
+            } else {
+                echo 'Không tìm thấy món ăn';
+            }
+        } else {
+            echo 'Id is null';
+        }
     }
 
-    public function update() {
-        $MaSv = $_POST['masv'] ?? '';
-        $TenSv = $_POST['tensv'] ?? '';
-        $Lop = $_POST['lop'] ?? '';
-        $Khoa = $_POST['khoa'] ?? '';
+    public function update()
+    {
+        $maMonAn = $_POST['ma_mon_an'] ?? null;
+        $maNguoiDung = $_POST['ma_nguoi_dung'] ?? '';
+        $tenMonAn = $_POST['ten_mon_an'] ?? '';
+        $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
+        $cachCheBien = $_POST['cach_che_bien'] ?? '';
+
+        if ($maMonAn === null) {
+            exit('Mã món ăn không hợp lệ');
+        }
+
+        $dish_new = new Dish($maMonAn, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
-        $dishService->editDish($MaSv, $TenSv, $Lop, $Khoa);
+        $dishService->editDish($dish_new);
 
-        $this->redirect();
+        header('Location: ?controller=dish&action=index');
+        exit;
     }
 
-    public function delete() {
-        $masv = $_GET['MaSv'] ?? '';
+    public function delete()
+    {
+        $maMonAn = $_GET['id'] ?? null;
 
-        $dishService = new DishService();
-        $dishService->deleteDish($masv);
+        if (isset($maMonAn)) {
+            $dishService = new DishService();
+            $dish = $dishService->getDishById($maMonAn);
 
-        $this->redirect();
+            if ($dish) {
+                include APP_ROOT . '/app/views/dish/delete.php';
+            } else {
+                echo 'Không tìm thấy món ăn';
+            }
+        } else {
+            echo 'Id is null';
+        }
     }
 
-    public function destroy() {
-        $masv = $_POST['masv'] ?? '';
+    public function destroy()
+    {
+        $maMonAn = $_POST['ma_mon_an'] ?? null;
 
-        $dishService = new DishService();
-        $dishService->deleteDish($masv);
+        if (isset($maMonAn)) {
+            $dishService = new DishService();
+            $dishService->deleteDish($maMonAn);
 
-        $this->redirect();
+            header('Location: ?controller=dish&action=index');
+            exit;
+        } else {
+            echo 'Id is null';
+        }
     }
 }
 ?>
