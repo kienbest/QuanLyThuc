@@ -61,14 +61,14 @@
             overflow: hidden;
         }
 
-        /* Tiêu đề card: To hơn, đậm hơn, căn giữa tuyệt đối */
+        /* Tiêu đề card: To hơn, đậm hơn, căn giữa tuyệt đối, không icon */
         .card-box-header {
             background-color: #f8f9fa;
             padding: 18px 20px;
             border-bottom: 1px solid #dcdcdc;
             font-weight: 700;
             color: #198754;
-            font-size: 1.25rem;
+            font-size: 1.45rem;
             text-align: center;
             position: relative;
         }
@@ -79,6 +79,7 @@
             right: 20px;
             top: 50%;
             transform: translateY(-50%);
+            font-size: 0.9rem;
         }
 
         .card-box-body {
@@ -147,14 +148,13 @@
 <!-- 1. THANH ĐIỀU HƯỚNG TOP NAVBAR -->
 <nav class="navbar navbar-expand navbar-custom">
     <div class="container-fluid px-3">
-        <!-- Đã đổi màu biểu tượng và chữ Menu Daily sang màu xanh lá hài hòa -->
         <a class="navbar-brand-custom" href="#">
             <i class="bi bi-calendar-week text-success"></i> Menu Daily
         </a>
         <div class="navbar-nav me-auto ms-3">
+            <a class="nav-link-custom" href="?controller=home&action=index">Tổng quan</a>
             <a class="nav-link-custom" href="?controller=menu&action=index">Lập thực đơn</a>
             <a class="nav-link-custom active fw-semibold" href="?controller=dish&action=index">Món ăn</a>
-            <a class="nav-link-custom" href="?controller=ingredient&action=index">Nguyên liệu</a>
             <a class="nav-link-custom" href="?controller=report&action=index">Tra cứu thực đơn</a>
         </div>
         <div class="navbar-nav ms-auto">
@@ -168,9 +168,9 @@
 <!-- 2. NỘI DUNG CHÍNH -->
 <div class="container">
     <div class="card-box">
-        <!-- Tiêu đề bọc trong Card: Chữ to, in đậm, căn giữa tuyệt đối, nút thêm nằm góc phải -->
+        <!-- Tiêu đề card: Chữ to đậm căn giữa, nút thêm nằm góc phải -->
         <div class="card-box-header">
-            <span><i class="bi bi-journal-text"></i> Danh sách món ăn</span>
+            <span>Danh sách món ăn</span>
             <a href="?controller=dish&action=add" class="btn btn-success btn-sm px-3 fw-semibold btn-add-absolute">
                 <i class="bi bi-plus-lg"></i> Thêm món ăn
             </a>
