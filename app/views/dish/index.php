@@ -195,7 +195,8 @@
                             <tr>
                                 <td class="text-center text-muted fw-medium"><?= $stt++ ?></td>
                                 <td class="text-center text-secondary"><?= htmlspecialchars((string)$dish->getMaNguoiDung()) ?></td>
-                                <td class="fw-semibold"><?= htmlspecialchars($dish->getTenMonAn()) ?></td>
+                                <!-- Đã bỏ class fw-semibold ở tên món ăn để chữ hiển thị bình thường -->
+                                <td><?= htmlspecialchars($dish->getTenMonAn()) ?></td>
                                 <td><?= htmlspecialchars($dish->getNguyenLieu() ?? '') ?></td>
                                 <td><?= htmlspecialchars($dish->getCachCheBien() ?? '') ?></td>
                                 <td class="action-column">
