@@ -10,7 +10,7 @@ class DishService{
             $conn = $dbConnection->getConnection();
 
             if ($conn != null) {
-                $sql = "SELECT * FROM sinhvien";
+                $sql = "SELECT * FROM mon_an";
                 $stmt = $conn->query($sql);
 
                 while ($row = $stmt->fetch()) {
