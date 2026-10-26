@@ -12,107 +12,69 @@
 
     <style>
         body {
-            background-color: white;
+            background: white;
         }
 
-        .card {
-            height: 100%;
-        }
-
-        .card-header {
-            font-weight: bold;
+        h3 {
+            font-size: 35px;
+            margin-top: 28px;
         }
 
         .dish {
             padding: 8px 0;
             display: flex;
             justify-content: space-between;
-            align-items: center;
         }
 
         .delete-btn {
             color: red;
             text-decoration: none;
         }
-        
-        h3 {
-            font-size: 35px;
-            margin-top: 28px;
-        }
     </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
 
             <a class="navbar-brand fw-bold text-success"
                href="<?= DOMAIN ?>public/">
-                Menu Daily
+                Quản lý thực đơn
             </a>
-
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#mainNavbar"
-                aria-controls="mainNavbar"
-                aria-expanded="false"
-                aria-label="Mở thanh điều hướng"
-            >
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link active"
-                           href="<?= DOMAIN ?>public/?controller=home&action=index">
-                            Tổng quan
-                        </a>
+                        <a class="nav-link active" href="<?= DOMAIN ?>public/?controller=home&action=index"> Tổng quan </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=menu&action=index">
-                            Lập thực đơn
-                        </a>
+                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=menu&action=index"> Lập thực đơn </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=dish&action=index">
-                            Món ăn
-                        </a>
+                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=dish&action=index"> Món ăn </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=menu&action=history">
-                            Tra cứu thực đơn
-                        </a>
+                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=menu&action=history"> Tra cứu thực đơn </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=user&action=login">
-                            Đăng nhập
-                        </a>
+                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login"> Đăng nhập </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=user&action=register">
-                            Đăng ký
-                        </a>
+                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register"> Đăng ký </a>
                     </li>
 
                 </ul>
             </div>
         </div>
     </nav>
-    
+
     <div class="container">
 
         <h3 class="text-center text-success mb-4">Lập thực đơn</h3>
@@ -124,7 +86,9 @@
                 <div class="col-md-8">
                     <label class="form-label">Chọn ngày</label>
                     <input type="date" name="ngay_an" class="form-control"
-                           value="<?= htmlspecialchars($ngayAn) ?>" required>
+                        value="<?= htmlspecialchars($ngayAn) ?>"
+                        onchange="location.href='?controller=menu&action=index&ngay_an='+this.value"
+                        required>
                 </div>
 
                 <div class="col-md-4 d-flex align-items-end">
@@ -134,94 +98,91 @@
 
             <div class="row">
 
+                <!-- Bữa sáng -->
                 <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-warning-subtle">
+                    <div class="card h-100">
+                        <div class="card-header bg-warning-subtle fw-bold">
                             <i class="bi bi-sun"></i> Bữa sáng
                         </div>
-
                         <div class="card-body">
                             <select name="thuc_don[Sang]" class="form-select mb-3">
-                                <option value="">-- Chọn món ăn --</option>
+                                <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
                                         <?= htmlspecialchars($mon['ten_mon_an']) ?>
                                     </option>
                                 <?php } ?>
                             </select>
-
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Sang') { ?>
                                     <div class="dish">
                                         <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
                                         <a class="delete-btn"
-                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
-                            <?php }
+                                <?php }
                             } ?>
                         </div>
                     </div>
                 </div>
 
+                <!-- Bữa trưa -->
                 <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-success-subtle">
+                    <div class="card h-100">
+                        <div class="card-header bg-success-subtle fw-bold">
                             <i class="bi bi-brightness-high"></i> Bữa trưa
                         </div>
-
                         <div class="card-body">
                             <select name="thuc_don[Trua]" class="form-select mb-3">
-                                <option value="">-- Chọn món ăn --</option>
+                                <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
                                         <?= htmlspecialchars($mon['ten_mon_an']) ?>
                                     </option>
                                 <?php } ?>
                             </select>
-
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Trua') { ?>
                                     <div class="dish">
                                         <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
                                         <a class="delete-btn"
-                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
-                            <?php }
+                                <?php }
                             } ?>
                         </div>
                     </div>
                 </div>
 
+                <!-- Bữa tối -->
                 <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-header bg-primary-subtle">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary-subtle fw-bold">
                             <i class="bi bi-moon"></i> Bữa tối
                         </div>
-
                         <div class="card-body">
                             <select name="thuc_don[Toi]" class="form-select mb-3">
-                                <option value="">-- Chọn món ăn --</option>
+                                <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
                                         <?= htmlspecialchars($mon['ten_mon_an']) ?>
                                     </option>
                                 <?php } ?>
                             </select>
-
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Toi') { ?>
                                     <div class="dish">
                                         <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
                                         <a class="delete-btn"
-                                           href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
-                            <?php }
+                                <?php }
                             } ?>
                         </div>
                     </div>
@@ -230,6 +191,6 @@
             </div>
         </form>
     </div>
-</body>
 
+</body>
 </html>
