@@ -35,7 +35,8 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <!-- Thanh điều hướng -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
 
             <a class="navbar-brand fw-bold text-success"
@@ -86,7 +87,7 @@
                 <div class="col-md-8">
                     <label class="form-label">Chọn ngày</label>
                     <input type="date" name="ngay_an" class="form-control"
-                        value="<?= htmlspecialchars($ngayAn) ?>"
+                        value="<?= $ngayAn ?>"
                         onchange="location.href='?controller=menu&action=index&ngay_an='+this.value"
                         required>
                 </div>
@@ -109,16 +110,15 @@
                                 <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
-                                        <?= htmlspecialchars($mon['ten_mon_an']) ?>
+                                        <?= $mon['ten_mon_an'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Sang') { ?>
                                     <div class="dish">
-                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
-                                        <a class="delete-btn"
-                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                        <span><?= $td['ten_mon_an'] ?></span>
+                                        <a class="delete-btn" href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
@@ -139,16 +139,15 @@
                                 <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
-                                        <?= htmlspecialchars($mon['ten_mon_an']) ?>
+                                        <?= $mon['ten_mon_an'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Trua') { ?>
                                     <div class="dish">
-                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
-                                        <a class="delete-btn"
-                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                        <span><?= $td['ten_mon_an'] ?></span>
+                                        <a class="delete-btn" href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
@@ -169,16 +168,15 @@
                                 <option value="">Chọn món ăn</option>
                                 <?php foreach ($monAn as $mon) { ?>
                                     <option value="<?= $mon['ma_mon_an'] ?>">
-                                        <?= htmlspecialchars($mon['ten_mon_an']) ?>
+                                        <?= $mon['ten_mon_an'] ?>
                                     </option>
                                 <?php } ?>
                             </select>
                             <?php foreach ($thucDon as $td) {
                                 if ($td['bua_an'] == 'Toi') { ?>
                                     <div class="dish">
-                                        <span><?= htmlspecialchars($td['ten_mon_an']) ?></span>
-                                        <a class="delete-btn"
-                                            href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
+                                        <span><?= $td['ten_mon_an'] ?></span>
+                                        <a class="delete-btn" href="?controller=menu&action=delete&id=<?= $td['ma_thuc_don'] ?>&ngay_an=<?= urlencode($ngayAn) ?>">
                                             <i class="bi bi-x-lg"></i>
                                         </a>
                                     </div>
