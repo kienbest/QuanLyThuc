@@ -21,6 +21,11 @@
 
                 <form action="<?= DOMAIN ?>public/?controller=user&action=handleRegister" method="POST">
                     <div class="mb-3">
+                        <label for="ma_nguoi_dung" class="form-label">Mã người dùng</label>
+                        <input type="text" class="form-control" id="ma_nguoi_dung" name="ma_nguoi_dung" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="ho_ten" class="form-label">Họ và tên</label>
                         <input type="text" class="form-control" id="ho_ten" name="ho_ten" required>
                     </div>
@@ -29,7 +34,6 @@
                         <label for="ten_dang_nhap" class="form-label">Tên đăng nhập</label>
                         <input type="text" class="form-control" id="ten_dang_nhap" name="ten_dang_nhap" required>
                     </div>
-
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" id="email" name="email" required>
