@@ -3,6 +3,10 @@
 require_once('../app/config/config.php');
 require_once APP_ROOT . '/app/libs/DBConnection.php';
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
