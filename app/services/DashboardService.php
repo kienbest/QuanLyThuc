@@ -1,3 +1,4 @@
+
 <?php
 
 require_once APP_ROOT . '/app/libs/DBConnection.php';
@@ -12,7 +13,6 @@ class DashboardService
         $this->conn = $db->getConnection();
     }
 
- 
     public function getTotalDishes()
     {
         $sql = "SELECT COUNT(*) AS total FROM mon_an";
@@ -21,7 +21,6 @@ class DashboardService
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    
     public function getTodayMenuCount()
     {
         $sql = "SELECT COUNT(*) AS total
@@ -33,7 +32,6 @@ class DashboardService
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-
     public function getTotalMenuDays()
     {
         $sql = "SELECT COUNT(DISTINCT ngay_an) AS total
@@ -44,24 +42,50 @@ class DashboardService
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-   
-        public function getMenuByDate($date)
-        {
-            $sql = "SELECT
-                        td.bua_an,
-                        ma.ten_mon_an,
-                        ma.nguyen_lieu,
-                        ma.cach_che_bien,
-                        td.ngay_an
-                    FROM thuc_don td
-                    LEFT JOIN mon_an ma ON ma.ma_mon_an = td.ma_mon_an
-                    WHERE td.ngay_an = :ngay_an
-                    ORDER BY FIELD(td.bua_an, 'Sang', 'Trua', 'Toi')";
+    public function getMenuByDate($date)
+    {
+        $sql = "SELECT
+                    td.bua_an,
+                    ma.ten_mon_an,
+                    ma.nguyen_lieu,
+                    ma.cach_che_bien,
+                    td.ngay_an
+                FROM thuc_don td
+                LEFT JOIN mon_an ma ON ma.ma_mon_an = td.ma_mon_an
+                WHERE td.ngay_an = :ngay_an
+                ORDER BY FIELD(td.bua_an, 'Sang', 'Trua', 'Toi')";
 
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':ngay_an', $date);
-            $stmt->execute();
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':ngay_an', $date);
+        $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getMenuHistory()
+    {
+        $sql = "SELECT
+                    td.ngay_an,
+                    td.bua_an,
+                    ma.ten_mon_an,
+                    ma.nguyen_lieu,
+                    ma.cach_che_bien
+                FROM thuc_don td
+                LEFT JOIN mon_an ma ON ma.ma_mon_an = td.ma_mon_an
+                ORDER BY td.ngay_an DESC,
+                         FIELD(td.bua_an, 'Sang', 'Trua', 'Toi')";
+
+        $stmt = $this->conn->query($sql);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $history = [];
+
+        foreach ($rows as $row) {
+            $history[$row['ngay_an']][] = $row;
         }
-}
+
+        return $history;
+    }
+
+       }
+?>
