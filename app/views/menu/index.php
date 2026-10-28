@@ -103,7 +103,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
                         <div class="card-header bg-warning-subtle fw-bold">
-                            <i class="bi bi-sun"></i> Bữa sáng
+                            Bữa sáng
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Sang]" class="form-select mb-3">
@@ -132,7 +132,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
                         <div class="card-header bg-success-subtle fw-bold">
-                            <i class="bi bi-brightness-high"></i> Bữa trưa
+                            Bữa trưa
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Trua]" class="form-select mb-3">
@@ -161,7 +161,7 @@
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
                         <div class="card-header bg-primary-subtle fw-bold">
-                            <i class="bi bi-moon"></i> Bữa tối
+                            Bữa tối
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Toi]" class="form-select mb-3">
