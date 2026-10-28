@@ -102,8 +102,8 @@
                 <!-- Bữa sáng -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header fw-bold" style="background-color: lightyellow;">
-                            Bữa sáng
+                        <div class="card-header bg-warning-subtle fw-bold">
+                            <i class="bi bi-sun"></i> Bữa sáng
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Sang]" class="form-select mb-3">
@@ -131,8 +131,8 @@
                 <!-- Bữa trưa -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header fw-bold" style="background-color: lightgreen;">
-                            Bữa trưa
+                        <div class="card-header bg-success-subtle fw-bold">
+                            <i class="bi bi-brightness-high"></i> Bữa trưa
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Trua]" class="form-select mb-3">
@@ -160,8 +160,8 @@
                 <!-- Bữa tối -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header fw-bold" style="background-color: lightblue;">
-                            Bữa tối
+                        <div class="card-header bg-primary-subtle fw-bold">
+                            <i class="bi bi-moon"></i> Bữa tối
                         </div>
                         <div class="card-body">
                             <select name="thuc_don[Toi]" class="form-select mb-3">
