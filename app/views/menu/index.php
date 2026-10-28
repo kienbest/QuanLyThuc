@@ -102,7 +102,7 @@
                 <!-- Bữa sáng -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header bg-warning-subtle fw-bold">
+                        <div class="card-header fw-bold" style="background-color: lightyellow;">
                             Bữa sáng
                         </div>
                         <div class="card-body">
@@ -131,7 +131,7 @@
                 <!-- Bữa trưa -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header bg-success-subtle fw-bold">
+                        <div class="card-header fw-bold" style="background-color: lightgreen;">
                             Bữa trưa
                         </div>
                         <div class="card-body">
@@ -160,7 +160,7 @@
                 <!-- Bữa tối -->
                 <div class="col-md-4 mb-3">
                     <div class="card h-100">
-                        <div class="card-header bg-primary-subtle fw-bold">
+                        <div class="card-header fw-bold" style="background-color: lightblue;">
                             Bữa tối
                         </div>
                         <div class="card-body">
