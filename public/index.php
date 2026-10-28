@@ -1,3 +1,4 @@
+
 <?php
 
 require_once('../app/config/config.php');
@@ -27,54 +28,62 @@ if ($controller == 'home') {
     $dishController = new DishController();
 
     if ($action == 'index') {
-
         $dishController->index();
-
     } else if ($action == 'add') {
-
         $dishController->add();
-
     } else if ($action == 'store') {
-
         $dishController->store();
-
     } else if ($action == 'edit') {
-
         $dishController->edit();
-
     } else if ($action == 'update') {
-
         $dishController->update();
-
     } else if ($action == 'delete') {
-
         $dishController->delete();
-
     } else if ($action == 'destroy') {
-
         $dishController->destroy();
-
     } else {
-
         echo 'Không tìm thấy chức năng quản lý món ăn.';
     }
 
-// Controller khác
 // Controller lập thực đơn
 } else if ($controller == 'menu') {
+
     require_once APP_ROOT . '/app/controllers/MenuController.php';
+
     $menuController = new MenuController();
+
     if ($action == 'index') {
         $menuController->index();
     } else if ($action == 'store') {
         $menuController->store();
     } else if ($action == 'delete') {
         $menuController->delete($_GET['id'] ?? null);
+    } else if ($action == 'destroy') {
+        $menuController->destroy($_GET['id'] ?? null);
     } else {
         echo 'Không tìm thấy chức năng lập thực đơn.';
     }
 
-// Controller khác
+// Controller tài khoản
+} else if ($controller == 'user') {
+
+    require_once APP_ROOT . '/app/controllers/UserController.php';
+
+    $userController = new UserController();
+
+    if ($action == 'login') {
+        $userController->login();
+    } else if ($action == 'handleLogin') {
+        $userController->handleLogin();
+    } else if ($action == 'register') {
+        $userController->register();
+    } else if ($action == 'handleRegister') {
+        $userController->handleRegister();
+    } else if ($action == 'logout') {
+        $userController->logout();
+    } else {
+        echo 'Không tìm thấy chức năng tài khoản.';
+    }
 
 } else {
 
