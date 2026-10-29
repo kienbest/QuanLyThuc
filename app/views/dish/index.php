@@ -34,77 +34,85 @@ $userName = $_SESSION['user']['ho_ten']
 </head>
 
 <body>
+<!-- Thanh điều hướng -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <div class="container">
 
-    <!-- Thanh điều hướng -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-        <div class="container">
+        <a class="navbar-brand fw-bold text-success"
+           href="<?= DOMAIN ?>public/"> Quản lý thực đơn </a>
 
-            <a class="navbar-brand fw-bold text-success"
-               href="<?= DOMAIN ?>public/">
-                Quản lý thực đơn
-            </a>
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav ms-auto">
 
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?= DOMAIN ?>public/?controller=home&action=index">
+                        Tổng quan
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?= DOMAIN ?>public/?controller=menu&action=index">
+                        Lập thực đơn
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="<?= DOMAIN ?>public/?controller=dish&action=index">
+                        Món ăn
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="<?= DOMAIN ?>public/?controller=menu&action=history">
+                        Tra cứu thực đơn
+                    </a>
+                </li>
+
+                <?php if (!empty($_SESSION['user'])): ?>
+
+                    <li class="nav-item">
+                        <span class="nav-link text-success fw-bold">
+                            Xin chào, <?= htmlspecialchars(
+                                $_SESSION['user']['ho_ten'] ?? '',
+                                ENT_QUOTES,
+                                'UTF-8'
+                            ) ?>
+                        </span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-danger"
+                           href="<?= DOMAIN ?>public/?controller=user&action=logout">
+                            Đăng xuất
+                        </a>
+                    </li>
+
+                <?php else: ?>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=home&action=index">
-                            Tổng quan
+                           href="<?= DOMAIN ?>public/?controller=user&action=login">
+                            Đăng nhập
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=menu&action=index">
-                            Lập thực đơn
+                           href="<?= DOMAIN ?>public/?controller=user&action=register">
+                            Đăng ký
                         </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           href="<?= DOMAIN ?>public/?controller=dish&action=index">
-                            Món ăn
-                        </a>
-                    </li>
+                <?php endif; ?>
 
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="<?= DOMAIN ?>public/?controller=menu&action=history">
-                            Tra cứu thực đơn
-                        </a>
-                    </li>
-                    <?php if (!empty($isLoggedIn)): ?>
-                        <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
-                        <li class="nav-item">
-                            <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?></span>
-                        </li>
-                        <li class="nav-item ms-2">
-                        <li class="nav-item">
-                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">Đăng xuất</a>
-                        </li>
-                        </li>
-                    <?php else: ?>
-                        <!-- Khi CHƯA ĐĂNG NHẬP: Hiển thị Đăng nhập và Đăng ký -->
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="<?= DOMAIN ?>public/?controller=user&action=login">
-                                Đăng nhập
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               href="<?= DOMAIN ?>public/?controller=user&action=register">
-                                Đăng ký
-                            </a>
-                        </li>
-                    <?php endif; ?>
-
-                </ul>
-            </div>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <div class="container mt-4 mb-5">
 
