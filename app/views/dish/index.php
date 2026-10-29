@@ -237,7 +237,7 @@
             ?>
 
             <span class="nav-link-custom nav-user">
-                Chào <?= htmlspecialchars($tenNguoiDung, ENT_QUOTES, 'UTF-8') ?>
+                Xin chào, <?= htmlspecialchars($tenNguoiDung, ENT_QUOTES, 'UTF-8') ?>
             </span>
 
             <a class="nav-link-custom nav-logout"
