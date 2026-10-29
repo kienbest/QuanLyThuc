@@ -2,9 +2,17 @@
 // app/views/dish/index.php
 /** @var mixed $dishes */
 
-// Kiểm tra trạng thái đăng nhập (Bạn có thể thay đổi bằng biến session thực tế của dự án, ví dụ: isset($_SESSION['user']))
-$isLoggedIn = isset($_SESSION['user']) ? true : false; 
-$userName = $_SESSION['user']['name'] ?? 'Nguyễn a'; 
+// Kiểm tra trạng thái đăng nhập từ session thực tế của bạn
+
+// app/views/dish/index.php
+/** @var mixed $dishes */
+
+$isLoggedIn = !empty($_SESSION['user']);
+
+$userName = $_SESSION['user']['ho_ten']
+    ?? $_SESSION['user']['name']
+    ?? $_SESSION['ho_ten']
+    ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -27,7 +35,7 @@ $userName = $_SESSION['user']['name'] ?? 'Nguyễn a';
 
 <body>
 
-    <!-- Thanh điều hướng (Giữ nguyên bản gốc) -->
+    <!-- Thanh điều hướng -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
         <div class="container">
 
@@ -37,7 +45,7 @@ $userName = $_SESSION['user']['name'] ?? 'Nguyễn a';
             </a>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
 
                     <li class="nav-item">
                         <a class="nav-link"
@@ -68,18 +76,18 @@ $userName = $_SESSION['user']['name'] ?? 'Nguyễn a';
                     </li>
 
                     <?php if (!empty($isLoggedIn)): ?>
-                        <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị Chào [Tên] và Đăng xuất (thay thế Đăng nhập/Đăng ký) -->
-                        <li class="nav-item d-flex align-items-center ms-2 text-success fw-semibold">
-                            Chào <?= htmlspecialchars($userName) ?>
+                        <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
+                        <li class="nav-item ms-3 text-success fw-semibold">
+                            Xin chào, <?= htmlspecialchars($userName) ?>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item ms-2">
                             <a class="nav-link text-danger"
                                href="<?= DOMAIN ?>public/?controller=user&action=logout">
                                 Đăng xuất
                             </a>
                         </li>
                     <?php else: ?>
-                        <!-- Khi CHƯA ĐĂNG NHẬP: Hiển thị Đăng nhập và Đăng ký ban đầu -->
+                        <!-- Khi CHƯA ĐĂNG NHẬP: Hiển thị Đăng nhập và Đăng ký -->
                         <li class="nav-item">
                             <a class="nav-link"
                                href="<?= DOMAIN ?>public/?controller=user&action=login">
@@ -181,25 +189,6 @@ $userName = $_SESSION['user']['name'] ?? 'Nguyễn a';
 
             </table>
         </div>
-
-        <!-- Thống kê tổng số lượng món ăn và phân trang -->
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="text-muted">
-                Tổng số: <strong><?= count($dishes ?? []) ?></strong> món ăn
-            </div>
-            <div>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination pagination-sm mb-0">
-                        <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>
-                        <li class="page-item active"><a class="page-link bg-success border-success" href="#">1</a></li>
-                        <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
-    </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
