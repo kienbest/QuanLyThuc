@@ -80,10 +80,9 @@ $userName = $_SESSION['user']['ho_ten']
                             <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?></span>
                         </li>
                         <li class="nav-item ms-2">
-                            <a class="nav-link text-danger"
-                               href="<?= DOMAIN ?>public/?controller=user&action=logout">
-                                Đăng xuất
-                            </a>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">Đăng xuất</a>
+                        </li>
                         </li>
                     <?php else: ?>
                         <!-- Khi CHƯA ĐĂNG NHẬP: Hiển thị Đăng nhập và Đăng ký -->
