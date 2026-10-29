@@ -23,16 +23,18 @@
             padding: 8px 0;
         }
 
+       
         .navbar-custom .container-fluid {
-            max-width: 1200px;
+            max-width: 1220px;
             margin: 0 auto;
-            padding-left: 12px;
-            padding-right: 12px;
+            padding-left: 0;
+            padding-right: 0;
         }
+
 
         .navbar-brand-custom {
             color: #198754 !important;
-            font-weight: 700;
+            font-weight: 725;
             font-size: 1.25rem;
             text-decoration: none;
             display: flex;
@@ -40,12 +42,12 @@
             white-space: nowrap;
             padding: 5px 0;
         }
-
+        
         .nav-link-custom {
             color: #212529;
             text-decoration: none;
             padding: 8px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 400;
             white-space: nowrap;
         }
@@ -94,7 +96,7 @@
             border-bottom: 1px solid #dee2e6;
             font-weight: 600;
             color: #198754;
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             text-align: center;
             position: relative;
         }
@@ -113,33 +115,27 @@
         }
 
         /* Bảng đồng bộ với trang Tổng quan */
-        .table {
-            font-family: Arial, sans-serif;
-            font-size: 0.9rem;
-            color: #212529;
-            margin-bottom: 1rem;
-            border-color: #dee2e6;
-        }
-
+        
         .table thead th {
-            background-color: #f8f9fa;
-            color: #212529;
-            font-weight: 700;
-            font-size: 0.9rem;
-            border-color: #dee2e6;
-            border-bottom: 1px solid #dee2e6;
-            vertical-align: middle;
-            padding: 9px 8px;
+        background-color: #f8f9fa;
+        color: #212529;
+        font-weight: 750;
+        font-size: 0.95rem;
+        border-color: #dee2e6;
+        border-bottom: 1px solid #dee2e6;
+        vertical-align: middle;
+        padding: 10px 8px;
         }
 
         .table tbody td {
             color: #212529;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 400;
             vertical-align: middle;
-            padding: 9px 8px;
+            padding: 10px 8px;
             border-color: #dee2e6;
         }
+
 
         .table tbody tr:nth-child(even) td {
             background-color: #f2f2f2;
@@ -285,7 +281,7 @@
                     <?php if (!empty($dishes)): ?>
                         <?php $stt = 1; foreach ($dishes as $dish): ?>
                             <tr>
-                                <td class="text-center">
+                                <td class="text-center fw-bold">
                                     <?= $stt++ ?>
                                 </td>
 
@@ -331,41 +327,8 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Phần tổng số món và phân trang phía dưới -->
-            <div class="d-flex justify-content-between align-items-center pt-2">
-                <div class="text-muted small">
-                    Tổng: <strong><?= count($dishes ?? []) ?></strong> món ăn
-                </div>
-
-                <div>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item disabled">
-                                <a class="page-link text-secondary" href="#">
-                                    <i class="bi bi-chevron-left"></i>
-                                </a>
-                            </li>
-
-                            <li class="page-item active">
-                                <a class="page-link bg-success border-success text-white" href="#">
-                                    1
-                                </a>
-                            </li>
-
-                            <li class="page-item disabled">
-                                <a class="page-link text-secondary" href="#">
-                                    <i class="bi bi-chevron-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
-
 </body>
 </html>
