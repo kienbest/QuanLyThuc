@@ -21,6 +21,11 @@ $mealStyles = [
 ];
 
 $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
+
+// Ngày hôm nay, hôm trước, hôm sau (dùng cho các nút chuyển ngày)
+$today    = date('Y-m-d');
+$prevDate = date('Y-m-d', strtotime($selectedDate . ' -1 day'));
+$nextDate = date('Y-m-d', strtotime($selectedDate . ' +1 day'));
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -36,10 +41,10 @@ $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
         rel="stylesheet">
 </head>
 
-<body>
+<body class="bg-light">
 
     <!-- Thanh điều hướng -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
         <div class="container">
 
             <a class="navbar-brand fw-bold text-success"
@@ -77,7 +82,7 @@ $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active"
+                        <a class="nav-link active fw-semibold"
                             href="<?= $baseUrl ?>">
                             Tra cứu thực đơn
                         </a>
@@ -106,52 +111,72 @@ $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
 
     <div class="container mt-4 mb-5">
 
-        <h3 class="text-center text-uppercase text-success mt-3 mb-4">
+        <h3 class="text-center text-uppercase text-success fw-bold mt-3 mb-4">
             Tra cứu thực đơn
         </h3>
 
-        <!-- Form chọn ngày -->
-        <form method="GET" action="<?= DOMAIN ?>public/" class="row g-3 align-items-end mb-4">
+        <!-- Chọn ngày + nút chuyển ngày -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <form method="GET" action="<?= DOMAIN ?>public/" class="row g-2 align-items-end">
 
-            <input type="hidden" name="controller" value="menu">
-            <input type="hidden" name="action" value="history">
+                    <input type="hidden" name="controller" value="menu">
+                    <input type="hidden" name="action" value="history">
 
-            <div class="col-md-4">
-                <label for="date" class="form-label">Chọn ngày</label>
-                <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    class="form-control"
-                    value="<?= h($selectedDate) ?>"
-                    required>
+                    <div class="col-12 col-md-4">
+                        <label for="date" class="form-label fw-semibold">Chọn ngày</label>
+                        <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            class="form-control"
+                            value="<?= h($selectedDate) ?>"
+                            required>
+                    </div>
+
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success px-4">Xem</button>
+                    </div>
+
+                    <div class="col-12 col-md-auto ms-md-auto">
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-outline-secondary"
+                                href="<?= $baseUrl ?>&date=<?= h($prevDate) ?>">&larr; Hôm trước</a>
+                            <a class="btn btn-outline-secondary"
+                                href="<?= $baseUrl ?>&date=<?= h($today) ?>">Hôm nay</a>
+                            <a class="btn btn-outline-secondary"
+                                href="<?= $baseUrl ?>&date=<?= h($nextDate) ?>">Hôm sau &rarr;</a>
+                        </div>
+                    </div>
+
+                </form>
             </div>
-
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary">Xem</button>
-            </div>
-
-        </form>
+        </div>
 
         <!-- Thực đơn của ngày được chọn -->
-        <h5 class="mb-3">
+        <h5 class="mb-3 fw-bold">
             Thực đơn ngày <?= h(date('d/m/Y', strtotime($selectedDate))) ?>
+            <?php if ($selectedDate === $today): ?>
+                <span class="badge text-bg-success ms-2">Hôm nay</span>
+            <?php endif; ?>
         </h5>
 
-        <div class="row g-3 mb-4">
+        <div class="row g-3 mb-5">
             <?php foreach ($mealNames as $key => $name): ?>
                 <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-header fw-bold <?= $mealStyles[$key]['class'] ?>">
+                    <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                        <div class="card-header border-0 fw-bold <?= $mealStyles[$key]['class'] ?>">
                             <?= $mealStyles[$key]['icon'] ?> <?= h($name) ?>
                         </div>
                         <div class="card-body">
                             <?php if (!empty($selectedMenu[$key])): ?>
-                                <?php foreach ($selectedMenu[$key] as $dishName): ?>
-                                    <div><?= h($dishName) ?></div>
-                                <?php endforeach; ?>
+                                <ul class="list-unstyled mb-0">
+                                    <?php foreach ($selectedMenu[$key] as $dishName): ?>
+                                        <li class="py-1">• <?= h($dishName) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
                             <?php else: ?>
-                                <span class="text-muted">Chưa có món</span>
+                                <span class="text-muted fst-italic">Chưa có món</span>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -160,51 +185,53 @@ $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
         </div>
 
         <!-- Lịch sử thực đơn -->
-        <h5 class="mb-3">Lịch sử thực đơn</h5>
+        <h5 class="mb-3 fw-bold">Lịch sử thực đơn</h5>
 
-        <div class="table-responsive mb-3">
-            <table class="table table-bordered table-striped align-middle">
+        <div class="card border-0 shadow-sm overflow-hidden mb-3">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
 
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col">Ngày</th>
-                        <th scope="col">Bữa sáng</th>
-                        <th scope="col">Bữa trưa</th>
-                        <th scope="col">Bữa tối</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php if (!empty($history)): ?>
-
-                        <?php foreach ($history as $date => $meals): ?>
-                            <tr>
-                                <td>
-                                    <a href="<?= $baseUrl ?>&date=<?= h($date) ?>">
-                                        <?= h(date('d/m/Y', strtotime($date))) ?>
-                                    </a>
-                                </td>
-
-                                <?php foreach ($mealNames as $key => $name): ?>
-                                    <td>
-                                        <?= !empty($meals[$key]) ? h(implode(', ', $meals[$key])) : '—' ?>
-                                    </td>
-                                <?php endforeach; ?>
-                            </tr>
-                        <?php endforeach; ?>
-
-                    <?php else: ?>
-
+                    <thead>
                         <tr>
-                            <td colspan="4" class="text-center">
-                                Chưa có lịch sử thực đơn.
-                            </td>
+                            <th scope="col" class="table-light">Ngày</th>
+                            <th scope="col" class="bg-warning-subtle">☀️ Bữa sáng</th>
+                            <th scope="col" class="bg-success-subtle">🌤️ Bữa trưa</th>
+                            <th scope="col" class="bg-primary-subtle">🌙 Bữa tối</th>
                         </tr>
+                    </thead>
 
-                    <?php endif; ?>
-                </tbody>
+                    <tbody>
+                        <?php if (!empty($history)): ?>
 
-            </table>
+                            <?php foreach ($history as $date => $meals): ?>
+                                <tr class="<?= $date === $selectedDate ? 'table-active' : '' ?>">
+                                    <td>
+                                        <a class="text-decoration-none fw-semibold" href="<?= $baseUrl ?>&date=<?= h($date) ?>">
+                                            <?= h(date('d/m/Y', strtotime($date))) ?>
+                                        </a>
+                                    </td>
+
+                                    <?php foreach ($mealNames as $key => $name): ?>
+                                        <td>
+                                            <?= !empty($meals[$key]) ? h(implode(', ', $meals[$key])) : '<span class="text-muted">—</span>' ?>
+                                        </td>
+                                    <?php endforeach; ?>
+                                </tr>
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    Chưa có lịch sử thực đơn.
+                                </td>
+                            </tr>
+
+                        <?php endif; ?>
+                    </tbody>
+
+                </table>
+            </div>
         </div>
 
         <!-- Phân trang (giữ nguyên ngày đang chọn) -->
