@@ -76,10 +76,16 @@ $userName = $_SESSION['user']['ho_ten']
                     </li>
 
                     <?php if (!empty($isLoggedIn)): ?>
-                        <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
-                        <li class="nav-item ms-3 text-success fw-semibold">
-                            Xin chào, <?= htmlspecialchars($userName) ?>
-                        </li>
+                            <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
+                            <li class="nav-item d-flex align-items-center ms-3">
+                                <span class="text-success fw-semibold">Xin chào, <?= htmlspecialchars($userName) ?></span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom text-danger"
+                                   href="<?= DOMAIN ?>public/?controller=user&action=logout">
+                                    Đăng xuất
+                                </a>
+                            </li>
                         <li class="nav-item ms-2">
                             <a class="nav-link text-danger"
                                href="<?= DOMAIN ?>public/?controller=user&action=logout">
