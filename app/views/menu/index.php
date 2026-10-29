@@ -40,9 +40,7 @@
         <div class="container">
 
             <a class="navbar-brand fw-bold text-success"
-               href="<?= DOMAIN ?>public/">
-                Quản lý thực đơn
-            </a>
+               href="<?= DOMAIN ?>public/"> Quản lý thực đơn </a>
 
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto">
@@ -52,7 +50,8 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=menu&action=index"> Lập thực đơn </a>
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=index"> Lập thực đơn </a>
                     </li>
 
                     <li class="nav-item">
@@ -60,16 +59,29 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=menu&action=history"> Tra cứu thực đơn </a>
+                        <a class="nav-link"
+                           href="<?= DOMAIN ?>public/?controller=menu&action=history"> Tra cứu thực đơn </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login"> Đăng nhập </a>
-                    </li>
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <!-- Khi đã đăng nhập: Hiện lời chào và nút Đăng xuất -->
+                        <li class="nav-item">
+                            <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($_SESSION['user']['ho_ten'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">Đăng xuất</a>
+                        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register"> Đăng ký </a>
-                    </li>
+                    <?php else: ?>
+                        <!-- Khi chưa đăng nhập: Giữ nguyên 2 nút Đăng nhập và Đăng ký -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register">Đăng ký</a>
+                        </li>
+                    <?php endif; ?>
+
 
                 </ul>
             </div>
