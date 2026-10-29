@@ -83,6 +83,22 @@ $baseUrl = DOMAIN . 'public/?controller=menu&action=history';
                         </a>
                     </li>
 
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <li class="nav-item">
+                            <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($_SESSION['user']['ho_ten'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">Đăng xuất</a>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register">Đăng ký</a>
+                        </li>
+                    <?php endif; ?>
+
                 </ul>
             </div>
         </div>
