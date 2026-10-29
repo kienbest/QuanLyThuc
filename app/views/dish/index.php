@@ -74,18 +74,11 @@ $userName = $_SESSION['user']['ho_ten']
                             Tra cứu thực đơn
                         </a>
                     </li>
-
                     <?php if (!empty($isLoggedIn)): ?>
-                            <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
-                            <li class="nav-item d-flex align-items-center ms-3">
-                                <span class="text-success fw-semibold">Xin chào, <?= htmlspecialchars($userName) ?></span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link nav-link-custom text-danger"
-                                   href="<?= DOMAIN ?>public/?controller=user&action=logout">
-                                    Đăng xuất
-                                </a>
-                            </li>
+                        <!-- Khi ĐÃ ĐĂNG NHẬP: Hiển thị "Xin chào, [Tên]" và nút "Đăng xuất" đúng mẫu -->
+                        <li class="nav-item">
+                            <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($userName, ENT_QUOTES, 'UTF-8') ?></span>
+                        </li>
                         <li class="nav-item ms-2">
                             <a class="nav-link text-danger"
                                href="<?= DOMAIN ?>public/?controller=user&action=logout">
