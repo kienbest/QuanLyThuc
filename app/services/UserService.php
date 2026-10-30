@@ -19,16 +19,17 @@ class UserService {
     }
 
     // Đăng ký tài khoản mới khớp với các cột trong DB của bạn
-    public function register($ten_dang_nhap, $mat_khau, $ho_ten, $email) {
+    public function register($ma_nguoi_dung, $ho_ten, $ten_dang_nhap, $mat_khau, $email) {
         $hashedPassword = password_hash($mat_khau, PASSWORD_BCRYPT);
-        
-        $sql = "INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, email) VALUES (:ten_dang_nhap, :mat_khau, :ho_ten, :email)";
+
+        $sql = "INSERT INTO nguoi_dung (ma_nguoi_dung, ten_dang_nhap, mat_khau, ho_ten, email) VALUES (:ma_nguoi_dung, :ten_dang_nhap, :mat_khau, :ho_ten, :email)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
-            ':ten_dang_nhap' => $ten_dang_nhap,
-            ':mat_khau'      => $hashedPassword,
+            ':ma_nguoi_dung' => $ma_nguoi_dung,
             ':ho_ten'        => $ho_ten,
-            ':email'         => $email
+            ':ten_dang_nhap' => $ten_dang_nhap,
+            ':email'         => $email,
+            ':mat_khau'      => $hashedPassword
         ]);
     }
 
