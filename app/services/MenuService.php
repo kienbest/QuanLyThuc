@@ -36,14 +36,14 @@ class MenuService
     public function saveMenu($ngayAn, $thucDon)
     {
         $conn = (new DBConnection())->getConnection();
-
+        $maNguoiDung = $_SESSION['user']['id'];
         foreach ($thucDon as $buaAn => $monAn) {
             if (is_array($monAn)) {
                 foreach ($monAn as $maMonAn) {
-                    $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES (1, '$maMonAn', '$ngayAn', '$buaAn')");
+                    $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES ('$maNguoiDung', '$maMonAn', '$ngayAn', '$buaAn')");
                 }
             } elseif ($monAn != '') {
-                $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES (1, '$monAn', '$ngayAn', '$buaAn')");
+                $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES ('$maNguoiDung', '$monAn', '$ngayAn', '$buaAn')");
             }
         }
     }
