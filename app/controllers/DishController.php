@@ -1,12 +1,29 @@
-
 <?php
 
 require_once APP_ROOT . '/app/services/DishService.php';
 
 class DishController
 {
+    // Kiểm tra đăng nhập
+    private function checkLogin()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['user'])) {
+            echo "<script>
+                alert('Vui lòng đăng nhập để sử dụng chức năng này!');
+                window.location.href = '" . DOMAIN . "public/?controller=user&action=login';
+            </script>";
+            exit;
+        }
+    }
+
     public function index()
     {
+        $this->checkLogin();
+
         $dishService = new DishService();
         $dishes = $dishService->getAllDishes();
 
@@ -15,17 +32,27 @@ class DishController
 
     public function add()
     {
+        $this->checkLogin();
+
         include_once APP_ROOT . '/app/views/dish/add.php';
     }
 
     public function store()
     {
-        $maNguoiDung = $_POST['ma_nguoi_dung'];
-        $tenMonAn = $_POST['ten_mon_an'];
-        $nguyenLieu = $_POST['nguyen_lieu'];
-        $cachCheBien = $_POST['cach_che_bien'];
+        $this->checkLogin();
 
-        $dish = new Dish(null, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
+        $maNguoiDung = $_SESSION['user']['ma_nguoi_dung'];
+        $tenMonAn = $_POST['ten_mon_an'] ?? '';
+        $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
+        $cachCheBien = $_POST['cach_che_bien'] ?? '';
+
+        $dish = new Dish(
+            null,
+            $maNguoiDung,
+            $tenMonAn,
+            $nguyenLieu,
+            $cachCheBien
+        );
 
         $dishService = new DishService();
         $dishService->addDish($dish);
@@ -36,6 +63,8 @@ class DishController
 
     public function edit()
     {
+        $this->checkLogin();
+
         $maMonAn = $_GET['id'] ?? null;
 
         if (isset($maMonAn)) {
@@ -54,8 +83,10 @@ class DishController
 
     public function update()
     {
+        $this->checkLogin();
+
         $maMonAn = $_POST['ma_mon_an'] ?? null;
-        $maNguoiDung = $_POST['ma_nguoi_dung'] ?? '';
+        $maNguoiDung = $_SESSION['user']['ma_nguoi_dung'];
         $tenMonAn = $_POST['ten_mon_an'] ?? '';
         $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
         $cachCheBien = $_POST['cach_che_bien'] ?? '';
@@ -64,7 +95,13 @@ class DishController
             exit('Mã món ăn không hợp lệ');
         }
 
-        $dish_new = new Dish($maMonAn, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
+        $dish_new = new Dish(
+            $maMonAn,
+            $maNguoiDung,
+            $tenMonAn,
+            $nguyenLieu,
+            $cachCheBien
+        );
 
         $dishService = new DishService();
         $dishService->editDish($dish_new);
@@ -75,6 +112,8 @@ class DishController
 
     public function delete()
     {
+        $this->checkLogin();
+
         $maMonAn = $_GET['id'] ?? null;
 
         if (isset($maMonAn)) {
@@ -93,6 +132,8 @@ class DishController
 
     public function destroy()
     {
+        $this->checkLogin();
+
         $maMonAn = $_POST['ma_mon_an'] ?? null;
 
         if (isset($maMonAn)) {
