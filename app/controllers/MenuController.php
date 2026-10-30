@@ -18,6 +18,10 @@ class MenuController
 
     public function store()
     {
+        if (!isset($_SESSION['user'])) {
+            echo "<script> alert('Bạn chưa đăng nhập!'); history.back(); </script>";
+            exit;
+    }
         $ngayAn = $_POST['ngay_an'];
         $thucDon = $_POST['thuc_don'];
 
