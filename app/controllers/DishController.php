@@ -13,7 +13,7 @@ class DishController
 
         if (empty($_SESSION['user'])) {
             echo "<script>
-                alert('Vui lòng đăng nhập để sử dụng chức năng này!');
+                alert('Bạn cần đăng nhập để sử dụng chức năng này!');
                 window.location.href = '" . DOMAIN . "public/?controller=user&action=login';
             </script>";
             exit;
@@ -22,8 +22,6 @@ class DishController
 
     public function index()
     {
-        $this->checkLogin();
-
         $dishService = new DishService();
         $dishes = $dishService->getAllDishes();
 
@@ -41,18 +39,12 @@ class DishController
     {
         $this->checkLogin();
 
-        $maNguoiDung = $_SESSION['user']['ma_nguoi_dung'];
-        $tenMonAn = $_POST['ten_mon_an'] ?? '';
-        $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
-        $cachCheBien = $_POST['cach_che_bien'] ?? '';
+        $maNguoiDung = $_POST['ma_nguoi_dung'];
+        $tenMonAn = $_POST['ten_mon_an'];
+        $nguyenLieu = $_POST['nguyen_lieu'];
+        $cachCheBien = $_POST['cach_che_bien'];
 
-        $dish = new Dish(
-            null,
-            $maNguoiDung,
-            $tenMonAn,
-            $nguyenLieu,
-            $cachCheBien
-        );
+        $dish = new Dish(null, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
         $dishService->addDish($dish);
@@ -86,7 +78,7 @@ class DishController
         $this->checkLogin();
 
         $maMonAn = $_POST['ma_mon_an'] ?? null;
-        $maNguoiDung = $_SESSION['user']['ma_nguoi_dung'];
+        $maNguoiDung = $_POST['ma_nguoi_dung'] ?? '';
         $tenMonAn = $_POST['ten_mon_an'] ?? '';
         $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
         $cachCheBien = $_POST['cach_che_bien'] ?? '';
@@ -95,13 +87,7 @@ class DishController
             exit('Mã món ăn không hợp lệ');
         }
 
-        $dish_new = new Dish(
-            $maMonAn,
-            $maNguoiDung,
-            $tenMonAn,
-            $nguyenLieu,
-            $cachCheBien
-        );
+        $dish_new = new Dish($maMonAn, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
         $dishService->editDish($dish_new);
