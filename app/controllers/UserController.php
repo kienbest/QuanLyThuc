@@ -43,6 +43,7 @@ class UserController {
 
     public function handleRegister() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $ma_nguoi_dung = trim($_POST['ma_nguoi_dung'] ?? '');
             $ho_ten = trim($_POST['ho_ten'] ?? '');
             $ten_dang_nhap = trim($_POST['ten_dang_nhap'] ?? '');
             $email = trim($_POST['email'] ?? '');
@@ -52,7 +53,7 @@ class UserController {
                 $error = "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!";
                 include APP_ROOT . '/app/views/user/register.php';
             } else {
-                $result = $this->userService->register($ten_dang_nhap, $mat_khau, $ho_ten, $email);
+                $result = $this->userService->register($ma_nguoi_dung, $ho_ten, $ten_dang_nhap, $mat_khau, $email);
                 if ($result) {
                     $success = "Đăng ký thành công! Mời bạn đăng nhập.";
                     include APP_ROOT . '/app/views/user/login.php';
