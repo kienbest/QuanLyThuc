@@ -38,11 +38,6 @@
             <input type="hidden" name="ma_mon_an" value="<?= $dish->getMaMonAn(); ?>">
 
             <div class="mb-3">
-                <label for="ma_nguoi_dung" class="form-label">Mã người dùng</label>
-                <input type="number" class="form-control" id="ma_nguoi_dung" name="ma_nguoi_dung" value="<?= $dish->getMaNguoiDung(); ?>">
-            </div>
-
-            <div class="mb-3">
                 <label for="ten_mon_an" class="form-label">Tên món ăn</label>
                 <input type="text" class="form-control" id="ten_mon_an" name="ten_mon_an" value="<?= $dish->getTenMonAn(); ?>">
             </div>
