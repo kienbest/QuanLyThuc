@@ -1,10 +1,5 @@
 
-<?php
-/** @var mixed $totalDishes */
-/** @var mixed $todayMenuCount */
-/** @var mixed $totalMenuDays */
-/** @var string $selectedDate */
-?>
+
 <!DOCTYPE html>
 <html lang="vi">
 
@@ -65,22 +60,31 @@
                     <?php if (isset($_SESSION['user'])): ?>
                         <!-- Khi đã đăng nhập: Hiện lời chào và nút Đăng xuất -->
                         <li class="nav-item">
-                            <span class="nav-link text-success fw-bold">Xin chào, <?= htmlspecialchars($_SESSION['user']['ho_ten'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+                            <span class="nav-link text-success fw-bold">
+                                Xin chào, <?= $_SESSION['user']['ho_ten'] ?? '' ?>
+                            </span>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">Đăng xuất</a>
+                            <a class="nav-link text-danger" href="<?= DOMAIN ?>public/?controller=user&action=logout">
+                                Đăng xuất
+                            </a>
                         </li>
 
                     <?php else: ?>
                         <!-- Khi chưa đăng nhập: Giữ nguyên 2 nút Đăng nhập và Đăng ký -->
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login">Đăng nhập</a>
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=login">
+                                Đăng nhập
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register">Đăng ký</a>
+                            <a class="nav-link" href="<?= DOMAIN ?>public/?controller=user&action=register">
+                                Đăng ký
+                            </a>
                         </li>
                     <?php endif; ?>
-
 
                 </ul>
             </div>
@@ -147,8 +151,13 @@
         </div>
 
         <!-- Lịch sử lập thực đơn -->
-        <h5 class="mb-3">Lịch sử lập thực đơn</h5>
+        <?php
+            if (!isset($selectedDate)) {
+                $selectedDate = date('Y-m-d');
+            }
+            ?>
 
+            <h5 class="mb-3">Lịch sử lập thực đơn</h5>
         <form
             method="GET"
             action="<?= DOMAIN ?>public/"
@@ -184,7 +193,7 @@
         <p class="mb-2">
             Kết quả ngày:
             <strong>
-                <?= date('d/m/Y', strtotime($selectedDate)) ?>
+                <?= (new DateTime($selectedDate))->format('d/m/Y') ?>
             </strong>
         </p>
 
