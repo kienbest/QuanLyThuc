@@ -23,6 +23,7 @@ class UserController {
                 if (session_status() === PHP_SESSION_NONE) {
                     session_start();
                 }
+                session_regenerate_id(true);
                 $_SESSION['user'] = [
                     'id' => $user['ma_nguoi_dung'],
                     'ten_dang_nhap' => $user['ten_dang_nhap'],
@@ -43,7 +44,6 @@ class UserController {
 
     public function handleRegister() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $ma_nguoi_dung = trim($_POST['ma_nguoi_dung'] ?? '');
             $ho_ten = trim($_POST['ho_ten'] ?? '');
             $ten_dang_nhap = trim($_POST['ten_dang_nhap'] ?? '');
             $email = trim($_POST['email'] ?? '');
@@ -53,7 +53,7 @@ class UserController {
                 $error = "Tên đăng nhập đã tồn tại, vui lòng chọn tên khác!";
                 include APP_ROOT . '/app/views/user/register.php';
             } else {
-                $result = $this->userService->register($ma_nguoi_dung, $ho_ten, $ten_dang_nhap, $mat_khau, $email);
+                $result = $this->userService->register($ho_ten, $ten_dang_nhap, $mat_khau, $email);
                 if ($result) {
                     $success = "Đăng ký thành công! Mời bạn đăng nhập.";
                     include APP_ROOT . '/app/views/user/login.php';
@@ -69,7 +69,19 @@ class UserController {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-        unset($_SESSION['user']);
+        $_SESSION = [];
+        if (ini_get('session.use_cookies')) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),
+                '',
+                time() - 42000,
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
+        }
         session_destroy();
         header('Location: ' . DOMAIN . 'public/?controller=user&action=login');
         exit;

@@ -7,6 +7,10 @@
 /** @var int $page */
 /** @var int $totalPages */
 
+if (!isset($totalPages)) {
+    $totalPages = 1;
+}
+
 // Hàm rút gọn để in dữ liệu an toàn (chống XSS)
 function h($text)
 {

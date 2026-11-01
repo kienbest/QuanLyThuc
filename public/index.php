@@ -1,5 +1,7 @@
 <?php
 
+ob_start();
+
 require_once('../app/config/config.php');
 require_once APP_ROOT . '/app/libs/DBConnection.php';
 
@@ -9,6 +11,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
 $action = isset($_GET['action']) ? $_GET['action'] : 'index';
+
+$publicUserActions = ['login', 'handleLogin', 'register', 'handleRegister', 'logout'];
+if (
+    !($controller === 'user' && in_array($action, $publicUserActions, true)) &&
+    empty($_SESSION['user']['id'])
+) {
+    header('Location: ' . DOMAIN . 'public/?controller=user&action=login');
+    exit;
+}
 
 // Controller trang chủ
 if ($controller == 'home') {

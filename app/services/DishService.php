@@ -5,7 +5,7 @@ require_once APP_ROOT . '/app/models/Dish.php';
 
 class DishService
 {
-    public function getAllDishes()
+    public function getAllDishes($maNguoiDung)
     {
         $dishes = [];
         $dbConnection = new DBConnection();
@@ -14,8 +14,9 @@ class DishService
             $conn = $dbConnection->getConnection();
 
             if ($conn != null) {
-                $sql = "SELECT * FROM mon_an";
-                $stmt = $conn->query($sql);
+                $sql = "SELECT * FROM mon_an WHERE ma_nguoi_dung = :ma_nguoi_dung";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([':ma_nguoi_dung' => $maNguoiDung]);
 
                 while ($row = $stmt->fetch()) {
                     $dish = new Dish(
@@ -36,7 +37,7 @@ class DishService
         return $dishes;
     }
 
-    public function addDish(Dish $dish)
+    public function addDish(Dish $dish, $maNguoiDung)
     {
         $dbConnection = new DBConnection();
 
@@ -44,20 +45,25 @@ class DishService
             $conn = $dbConnection->getConnection();
 
             if ($conn != null) {
-                $maNguoiDung = $dish->getMaNguoiDung();
                 $tenMonAn = $dish->getTenMonAn();
                 $nguyenLieu = $dish->getNguyenLieu();
                 $cachCheBien = $dish->getCachCheBien();
 
                 $sql = "INSERT INTO mon_an (`ma_nguoi_dung`, `ten_mon_an`, `nguyen_lieu`, `cach_che_bien`)
-                        VALUES ('$maNguoiDung', '$tenMonAn', '$nguyenLieu', '$cachCheBien')";
+                        VALUES (:ma_nguoi_dung, :ten_mon_an, :nguyen_lieu, :cach_che_bien)";
 
-                $conn->exec($sql);
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    ':ma_nguoi_dung' => $maNguoiDung,
+                    ':ten_mon_an' => $tenMonAn,
+                    ':nguyen_lieu' => $nguyenLieu,
+                    ':cach_che_bien' => $cachCheBien
+                ]);
             }
         }
     }
 
-    public function getDishById($maMonAn)
+    public function getDishById($maMonAn, $maNguoiDung)
     {
         $dbConnection = new DBConnection();
 
@@ -65,11 +71,16 @@ class DishService
             $conn = $dbConnection->getConnection();
 
             if ($conn != null) {
-                $sql = "SELECT * FROM mon_an WHERE `ma_mon_an` = '$maMonAn'";
-                $stmt = $conn->query($sql);
+                $sql = "SELECT * FROM mon_an
+                        WHERE `ma_mon_an` = :ma_mon_an
+                          AND `ma_nguoi_dung` = :ma_nguoi_dung";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    ':ma_mon_an' => $maMonAn,
+                    ':ma_nguoi_dung' => $maNguoiDung
+                ]);
 
-                if ($stmt->rowCount() > 0) {
-                    $row = $stmt->fetch();
+                if ($row = $stmt->fetch()) {
 
                     $dish = new Dish(
                         $row['ma_mon_an'],
@@ -85,7 +96,7 @@ class DishService
         }
     }
 
-    public function editDish(Dish $dish)
+    public function editDish(Dish $dish, $maNguoiDung)
     {
         $dbConnection = new DBConnection();
 
@@ -94,24 +105,30 @@ class DishService
 
             if ($conn != null) {
                 $maMonAn = $dish->getMaMonAn();
-                $maNguoiDung = $dish->getMaNguoiDung();
                 $tenMonAn = $dish->getTenMonAn();
                 $nguyenLieu = $dish->getNguyenLieu();
                 $cachCheBien = $dish->getCachCheBien();
 
                 $sql = "UPDATE mon_an
-                        SET `ma_nguoi_dung` = '$maNguoiDung',
-                            `ten_mon_an` = '$tenMonAn',
-                            `nguyen_lieu` = '$nguyenLieu',
-                            `cach_che_bien` = '$cachCheBien'
-                        WHERE `ma_mon_an` = '$maMonAn'";
+                        SET `ten_mon_an` = :ten_mon_an,
+                            `nguyen_lieu` = :nguyen_lieu,
+                            `cach_che_bien` = :cach_che_bien
+                        WHERE `ma_mon_an` = :ma_mon_an
+                          AND `ma_nguoi_dung` = :ma_nguoi_dung";
 
-                $conn->exec($sql);
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    ':ten_mon_an' => $tenMonAn,
+                    ':nguyen_lieu' => $nguyenLieu,
+                    ':cach_che_bien' => $cachCheBien,
+                    ':ma_mon_an' => $maMonAn,
+                    ':ma_nguoi_dung' => $maNguoiDung
+                ]);
             }
         }
     }
 
-    public function deleteDish($maMonAn)
+    public function deleteDish($maMonAn, $maNguoiDung)
     {
         $dbConnection = new DBConnection();
 
@@ -119,8 +136,14 @@ class DishService
             $conn = $dbConnection->getConnection();
 
             if ($conn != null) {
-                $sql = "DELETE FROM mon_an WHERE `ma_mon_an` = '$maMonAn'";
-                $conn->exec($sql);
+                $sql = "DELETE FROM mon_an
+                        WHERE `ma_mon_an` = :ma_mon_an
+                          AND `ma_nguoi_dung` = :ma_nguoi_dung";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute([
+                    ':ma_mon_an' => $maMonAn,
+                    ':ma_nguoi_dung' => $maNguoiDung
+                ]);
             }
         }
     }

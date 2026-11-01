@@ -11,19 +11,19 @@ class DishController
             session_start();
         }
 
-        if (empty($_SESSION['user'])) {
-            echo "<script>
-                alert('Bạn cần đăng nhập để sử dụng chức năng này!');
-                window.location.href = '" . DOMAIN . "public/?controller=user&action=login';
-            </script>";
+        if (empty($_SESSION['user']['id'])) {
+            header('Location: ' . DOMAIN . 'public/?controller=user&action=login');
             exit;
         }
+
+        return $_SESSION['user']['id'];
     }
 
     public function index()
     {
+        $maNguoiDung = $this->checkLogin();
         $dishService = new DishService();
-        $dishes = $dishService->getAllDishes();
+        $dishes = $dishService->getAllDishes($maNguoiDung);
 
         include APP_ROOT . '/app/views/dish/index.php';
     }
@@ -37,9 +37,8 @@ class DishController
 
     public function store()
     {
-        $this->checkLogin();
+        $maNguoiDung = $this->checkLogin();
 
-        $maNguoiDung = $_POST['ma_nguoi_dung'];
         $tenMonAn = $_POST['ten_mon_an'];
         $nguyenLieu = $_POST['nguyen_lieu'];
         $cachCheBien = $_POST['cach_che_bien'];
@@ -47,7 +46,7 @@ class DishController
         $dish = new Dish(null, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
-        $dishService->addDish($dish);
+        $dishService->addDish($dish, $maNguoiDung);
 
         header('Location: ?controller=dish&action=index');
         exit;
@@ -55,13 +54,13 @@ class DishController
 
     public function edit()
     {
-        $this->checkLogin();
+        $maNguoiDung = $this->checkLogin();
 
         $maMonAn = $_GET['id'] ?? null;
 
         if (isset($maMonAn)) {
             $dishService = new DishService();
-            $dish = $dishService->getDishById($maMonAn);
+            $dish = $dishService->getDishById($maMonAn, $maNguoiDung);
 
             if ($dish) {
                 include APP_ROOT . '/app/views/dish/edit.php';
@@ -75,10 +74,9 @@ class DishController
 
     public function update()
     {
-        $this->checkLogin();
+        $maNguoiDung = $this->checkLogin();
 
         $maMonAn = $_POST['ma_mon_an'] ?? null;
-        $maNguoiDung = $_POST['ma_nguoi_dung'] ?? '';
         $tenMonAn = $_POST['ten_mon_an'] ?? '';
         $nguyenLieu = $_POST['nguyen_lieu'] ?? '';
         $cachCheBien = $_POST['cach_che_bien'] ?? '';
@@ -90,7 +88,7 @@ class DishController
         $dish_new = new Dish($maMonAn, $maNguoiDung, $tenMonAn, $nguyenLieu, $cachCheBien);
 
         $dishService = new DishService();
-        $dishService->editDish($dish_new);
+        $dishService->editDish($dish_new, $maNguoiDung);
 
         header('Location: ?controller=dish&action=index');
         exit;
@@ -98,13 +96,13 @@ class DishController
 
     public function delete()
     {
-        $this->checkLogin();
+        $maNguoiDung = $this->checkLogin();
 
         $maMonAn = $_GET['id'] ?? null;
 
         if (isset($maMonAn)) {
             $dishService = new DishService();
-            $dish = $dishService->getDishById($maMonAn);
+            $dish = $dishService->getDishById($maMonAn, $maNguoiDung);
 
             if ($dish) {
                 include APP_ROOT . '/app/views/dish/delete.php';
@@ -118,13 +116,13 @@ class DishController
 
     public function destroy()
     {
-        $this->checkLogin();
+        $maNguoiDung = $this->checkLogin();
 
         $maMonAn = $_POST['ma_mon_an'] ?? null;
 
         if (isset($maMonAn)) {
             $dishService = new DishService();
-            $dishService->deleteDish($maMonAn);
+            $dishService->deleteDish($maMonAn, $maNguoiDung);
 
             header('Location: ?controller=dish&action=index');
             exit;

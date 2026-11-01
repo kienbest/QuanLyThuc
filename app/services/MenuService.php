@@ -3,11 +3,12 @@ require_once APP_ROOT . '/app/models/Menu.php';
 
 class MenuService
 {
-    public function getAllDishes()
+    public function getAllDishes($maNguoiDung)
     {
         $conn = (new DBConnection())->getConnection();
-        $sql = "SELECT * FROM mon_an";
-        $stmt = $conn->query($sql);
+        $sql = "SELECT * FROM mon_an WHERE ma_nguoi_dung = :ma_nguoi_dung";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':ma_nguoi_dung' => $maNguoiDung]);
 
         $monAn = [];
         while ($row = $stmt->fetch()) {
@@ -17,44 +18,83 @@ class MenuService
         return $monAn;
     }
 
-    public function getMenuByDate($ngayAn)
+    public function getMenuByDate($ngayAn, $maNguoiDung)
     {
         $conn = (new DBConnection())->getConnection();
-        $sql = "SELECT * FROM thuc_don WHERE ngay_an = '$ngayAn'";
-        $stmt = $conn->query($sql);
+        $sql = "SELECT td.*, ma.ten_mon_an
+                FROM thuc_don td
+                INNER JOIN mon_an ma
+                    ON ma.ma_mon_an = td.ma_mon_an
+                    AND ma.ma_nguoi_dung = td.ma_nguoi_dung
+                WHERE td.ngay_an = :ngay_an
+                  AND td.ma_nguoi_dung = :ma_nguoi_dung";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':ngay_an' => $ngayAn,
+            ':ma_nguoi_dung' => $maNguoiDung
+        ]);
 
         $thucDon = [];
         while ($row = $stmt->fetch()) {
-            $mon = $conn->query("SELECT ten_mon_an FROM mon_an WHERE ma_mon_an = " . $row['ma_mon_an'])->fetch();
-            $row['ten_mon_an'] = $mon['ten_mon_an'];
             $thucDon[] = $row;
         }
 
         return $thucDon;
     }
 
-    public function saveMenu($ngayAn, $thucDon)
+    public function saveMenu($ngayAn, $thucDon, $maNguoiDung)
     {
         $conn = (new DBConnection())->getConnection();
-        $maNguoiDung = $_SESSION['user']['id'];
+        if (!is_array($thucDon)) {
+            return;
+        }
+
+        $checkDish = $conn->prepare(
+            "SELECT 1 FROM mon_an
+             WHERE ma_mon_an = :ma_mon_an
+               AND ma_nguoi_dung = :ma_nguoi_dung"
+        );
+        $insertMenu = $conn->prepare(
+            "INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an)
+             VALUES (:ma_nguoi_dung, :ma_mon_an, :ngay_an, :bua_an)"
+        );
+
         foreach ($thucDon as $buaAn => $monAn) {
-            if (is_array($monAn)) {
-                foreach ($monAn as $maMonAn) {
-                    $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES ('$maNguoiDung', '$maMonAn', '$ngayAn', '$buaAn')");
+            foreach ((array) $monAn as $maMonAn) {
+                if ($maMonAn === '') {
+                    continue;
                 }
-            } elseif ($monAn != '') {
-                $conn->exec("INSERT INTO thuc_don (ma_nguoi_dung, ma_mon_an, ngay_an, bua_an) VALUES ('$maNguoiDung', '$monAn', '$ngayAn', '$buaAn')");
+
+                $checkDish->execute([
+                    ':ma_mon_an' => $maMonAn,
+                    ':ma_nguoi_dung' => $maNguoiDung
+                ]);
+
+                if ($checkDish->fetchColumn()) {
+                    $insertMenu->execute([
+                        ':ma_nguoi_dung' => $maNguoiDung,
+                        ':ma_mon_an' => $maMonAn,
+                        ':ngay_an' => $ngayAn,
+                        ':bua_an' => $buaAn
+                    ]);
+                }
             }
         }
     }
 
-    public function deleteMenu($maThucDon)
+    public function deleteMenu($maThucDon, $maNguoiDung)
     {
         $dbConnection = new DBConnection();
         $conn = $dbConnection->getConnection();
         if ($conn != null) {
-            $sql = "DELETE FROM thuc_don WHERE ma_thuc_don = '$maThucDon'";
-            $conn->exec($sql);
+            $sql = "DELETE FROM thuc_don
+                    WHERE ma_thuc_don = :ma_thuc_don
+                      AND ma_nguoi_dung = :ma_nguoi_dung";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute([
+                ':ma_thuc_don' => $maThucDon,
+                ':ma_nguoi_dung' => $maNguoiDung
+            ]);
         }
     }
 }

@@ -1,4 +1,9 @@
 
+<?php
+/** @var string $ngayAn */
+/** @var array $monAn */
+/** @var array $thucDon */
+?>
 <!DOCTYPE html>
 <html lang="vi">
 

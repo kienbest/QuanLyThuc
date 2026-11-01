@@ -6,27 +6,39 @@ require_once APP_ROOT . '/app/services/DashboardService.php';
 
 class MenuController
 {
+    private function checkLogin()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (empty($_SESSION['user']['id'])) {
+            header('Location: ' . DOMAIN . 'public/?controller=user&action=login');
+            exit;
+        }
+
+        return $_SESSION['user']['id'];
+    }
+
     public function index()
     {
+        $maNguoiDung = $this->checkLogin();
         $menuService = new MenuService();
         $ngayAn = $_GET['ngay_an'] ?? date('Y-m-d');
-        $monAn = $menuService->getAllDishes();
-        $thucDon = $menuService->getMenuByDate($ngayAn);
+        $monAn = $menuService->getAllDishes($maNguoiDung);
+        $thucDon = $menuService->getMenuByDate($ngayAn, $maNguoiDung);
 
         include APP_ROOT . '/app/views/menu/index.php';
     }
 
     public function store()
     {
-        if (!isset($_SESSION['user'])) {
-            echo "<script> alert('Bạn chưa đăng nhập!'); history.back(); </script>";
-            exit;
-    }
-        $ngayAn = $_POST['ngay_an'];
-        $thucDon = $_POST['thuc_don'];
+        $maNguoiDung = $this->checkLogin();
+        $ngayAn = $_POST['ngay_an'] ?? '';
+        $thucDon = $_POST['thuc_don'] ?? [];
 
         $menuService = new MenuService();
-        $menuService->saveMenu($ngayAn, $thucDon);
+        $menuService->saveMenu($ngayAn, $thucDon, $maNguoiDung);
 
         header('Location: ?controller=menu&action=index&ngay_an=' . $ngayAn);
         exit;
@@ -34,9 +46,10 @@ class MenuController
 
     public function delete($maThucDon)
     {
+        $maNguoiDung = $this->checkLogin();
         if (isset($maThucDon)) {
             $menuService = new MenuService();
-            $menuService->deleteMenu($maThucDon);
+            $menuService->deleteMenu($maThucDon, $maNguoiDung);
 
             $ngayAn = $_GET['ngay_an'] ?? date('Y-m-d');
             header('Location: ?controller=menu&action=index&ngay_an=' . $ngayAn);
@@ -48,8 +61,9 @@ class MenuController
 
     public function destroy($maThucDon)
     {
+        $maNguoiDung = $this->checkLogin();
         $menuService = new MenuService();
-        $menuService->deleteMenu($maThucDon);
+        $menuService->deleteMenu($maThucDon, $maNguoiDung);
 
         header('Location: ?controller=menu&action=index');
         exit;
@@ -57,13 +71,7 @@ class MenuController
 
     public function history()
     {
-        if (!isset($_SESSION['user'])) {
-            echo "<script>
-                alert('Bạn cần đăng nhập để tra cứu thực đơn!');
-                window.location.href = '" . DOMAIN . "public/?controller=user&action=login';
-            </script>";
-            exit;
-        }
+        $maNguoiDung = $this->checkLogin();
         $dashboardService = new DashboardService();
 
         $selectedDate = $_GET['date'] ?? date('Y-m-d');
@@ -74,7 +82,7 @@ class MenuController
             'Toi'  => 'Bữa tối'
         ];
 
-        $menuByDate = $dashboardService->getMenuByDate($selectedDate);
+        $menuByDate = $dashboardService->getMenuByDate($selectedDate, $maNguoiDung);
 
         $selectedMenu = [
             'Sang' => [],
@@ -90,7 +98,7 @@ class MenuController
             }
         }
 
-        $historyData = $dashboardService->getMenuHistory();
+        $historyData = $dashboardService->getMenuHistory($maNguoiDung);
         $history = [];
 
         foreach ($historyData as $date => $meals) {

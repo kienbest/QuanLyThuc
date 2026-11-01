@@ -11,21 +11,19 @@ class UserService {
 
     // Kiểm tra xem tên đăng nhập đã tồn tại chưa (dùng cột ten_dang_nhap)
     public function checkUserExists($ten_dang_nhap) {
-        $sql = "SELECT * FROM nguoi_dung WHERE ten_dang_nhap = :ten_dang_nhap";
+        $sql = "SELECT 1 FROM nguoi_dung WHERE ten_dang_nhap = :ten_dang_nhap";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':ten_dang_nhap', $ten_dang_nhap);
-        $stmt->execute();
+        $stmt->execute([':ten_dang_nhap' => $ten_dang_nhap]);
         return $stmt->fetch() ? true : false;
     }
 
     // Đăng ký tài khoản mới khớp với các cột trong DB của bạn
-    public function register($ma_nguoi_dung, $ho_ten, $ten_dang_nhap, $mat_khau, $email) {
+    public function register($ho_ten, $ten_dang_nhap, $mat_khau, $email) {
         $hashedPassword = password_hash($mat_khau, PASSWORD_BCRYPT);
 
-        $sql = "INSERT INTO nguoi_dung (ma_nguoi_dung, ten_dang_nhap, mat_khau, ho_ten, email) VALUES (:ma_nguoi_dung, :ten_dang_nhap, :mat_khau, :ho_ten, :email)";
+        $sql = "INSERT INTO nguoi_dung (ten_dang_nhap, mat_khau, ho_ten, email) VALUES (:ten_dang_nhap, :mat_khau, :ho_ten, :email)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
-            ':ma_nguoi_dung' => $ma_nguoi_dung,
             ':ho_ten'        => $ho_ten,
             ':ten_dang_nhap' => $ten_dang_nhap,
             ':email'         => $email,
@@ -35,10 +33,9 @@ class UserService {
 
     // Đăng nhập (kiểm tra ten_dang_nhap và mat_khau)
     public function login($ten_dang_nhap, $mat_khau) {
-        $sql = "SELECT * FROM nguoi_dung WHERE ten_dang_nhap = :ten_dang_nhap";
+        $sql = "SELECT ma_nguoi_dung, ten_dang_nhap, ho_ten, mat_khau FROM nguoi_dung WHERE ten_dang_nhap = :ten_dang_nhap";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':ten_dang_nhap', $ten_dang_nhap);
-        $stmt->execute();
+        $stmt->execute([':ten_dang_nhap' => $ten_dang_nhap]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($row && password_verify($mat_khau, $row['mat_khau'])) {
