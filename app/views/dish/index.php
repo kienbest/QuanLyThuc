@@ -135,7 +135,6 @@ $userName = $_SESSION['user']['ho_ten']
                 <thead class="table-light">
                     <tr>
                         <th scope="col" style="width: 60px;" class="text-center">STT</th>
-                        <th scope="col" style="width: 130px;" class="text-center">Mã người dùng</th>
                         <th scope="col" style="width: 25%;">Tên món ăn</th>
                         <th scope="col">Nguyên liệu</th>
                         <th scope="col">Cách chế biến</th>
@@ -151,10 +150,6 @@ $userName = $_SESSION['user']['ho_ten']
                                 <th scope="row" class="text-center">
                                     <?= $index + 1 ?>
                                 </th>
-
-                                <td class="text-center">
-                                    <?= htmlspecialchars((string)($dish->getMaNguoiDung() ?? '')) ?>
-                                </td>
 
                                 <td>
                                     <?= htmlspecialchars($dish->getTenMonAn() ?? '') ?>
@@ -185,7 +180,7 @@ $userName = $_SESSION['user']['ho_ten']
                     <?php else: ?>
 
                         <tr>
-                            <td colspan="6" class="text-center py-4">
+                            <td colspan="5" class="text-center py-4">
                                 Chưa có món ăn nào trong hệ thống.
                             </td>
                         </tr>
